@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="product_template_action_check_draft_rfqs" model="ir.actions.act_window">
+            <field name="name">Product Draft</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">purchase.order</field>
+            <field name="view_mode">kanban,tree,form</field>
+            <field name="domain">[('state', '=', 'draft')]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Create a new customer in your address book
+                </p>
+                <p>
+                    Odoo helps you easily track all activities related to a customer.
+                </p>
+            </field>
+        </record>
+
+
+        <menuitem id="menu_procurement_management_check_draft_rfqs" name="Product Draft RFQs"
+            parent="purchase.menu_procurement_management"
+            action="product_template_action_check_draft_rfqs" sequence="21"/>
+
+    </data>
+</odoo>

@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_show_noti_show_noti,show_noti.show_noti,model_show_noti_show_noti,,1,1,1,1
