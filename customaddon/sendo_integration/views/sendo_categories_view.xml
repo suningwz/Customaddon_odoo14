@@ -39,7 +39,7 @@
         </record>
 
         <record id="sendo_categories_act_window" model="ir.actions.act_window">
-            <field name="name">Categories</field>
+            <field name="name">Sendo Categories</field>
             <field name="type">ir.actions.act_window</field>
             <field name="res_model">sendo.categories</field>
             <field name="view_mode">tree,form</field>
@@ -51,7 +51,7 @@
             </field>
         </record>
         <menuitem
-                name="Categories"
+                name="Sendo Categories"
                 id="sendo_categories_menu"
                 parent="sendo_seller_product_menu"
                 action="sendo_categories_act_window"
