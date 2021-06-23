@@ -114,6 +114,6 @@
                 id="sendo_seller_connect_action"
                 parent="sendo_seller_product_menu"
                 action="sendo_seller_connect_act_window"
-                sequence="30"/>
+                sequence="50"/>
     </data>
 </odoo>
