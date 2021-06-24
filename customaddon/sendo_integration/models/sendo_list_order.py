@@ -6,7 +6,7 @@ from odoo import fields, models, api
 
 class SendoListOrder(models.Model):
     _name = "sendo.list.order"
-    _description = "List Order"
+    _description = "List Order Sendo"
 
     #   Information Order
     order_number = fields.Char(stored=True)
@@ -36,24 +36,22 @@ class SendoListOrder(models.Model):
 
     @api.onchange('date_from')
     def get_date_to(self):
-        for rec in self:
-            rec.date_to = (datetime.today()).strftime("%Y-%m-%d")
+            self.date_to = (datetime.today()).strftime("%Y-%m-%d")
 
             # Function get list product
-            rec.get_list_order_sendo()
+            self.get_list_order_sendo()
 
-            rec.date_from = rec.date_to
+            self.date_from = self.date_to
 
     def get_list_order_sendo(self):
-        for rec in self:
             current_seller = self.env['sendo.seller'].sudo().search([])[0]
 
             url = "https://open.sendo.vn/api/partner/salesorder/search"
             payload = json.dumps({
                 "page_size": 10,
                 "order_status": None,
-                "order_date_from": rec.date_from,
-                "order_date_to": rec.date_to,
+                "order_date_from": self.date_from,
+                "order_date_to": self.date_to,
                 "order_status_date_from": None,
                 "order_status_date_to": None,
                 "token": None
