@@ -7,7 +7,7 @@ class SendoCategories(models.Model):
     _name = "sendo.categories"
     _description = "Update Categories Sendo"
 
-    category_id = fields.Char(string='Category ID')
+    category_id = fields.Integer(string='Category ID')
     name = fields.Text(string='Name')
     level = fields.Integer(string='Primary')
     sendo_parent_id = fields.Char(string='Sendo Parent ID')
@@ -37,7 +37,7 @@ class SendoCategories(models.Model):
             if categories:
                 for cate in categories:
                     try:
-                        if ('id' and 'name' and 'level') in cate:
+                        # if ('id' and 'name' and 'level') in cate:
                             val['category_id'] = cate['id']
                             val['name'] = cate['name']
                             val['level'] = cate['level']
@@ -47,7 +47,7 @@ class SendoCategories(models.Model):
                     if len(existed_category) < 1:
                         self.create(val)
                     else:
-                        existed_category.write(val)
+                        existed_category.env['sendo.categories'].write(val)
             self.count_category = self.count_category + 1
         else:
             pass

@@ -52,10 +52,7 @@
             <field name="model">sendo.seller.product</field>
             <field name="arch" type="xml">
                 <kanban sample="1">
-                    <header>
-                        <button name="get_seller_product_sendo" string="Update Product"
-                                class="btn-primary" type="object"/>
-                    </header>
+                    <field name="id" invisible="1"/>
                     <field name="name"/>
                     <field name="promotion_price"/>
                     <field name="sku"/>
@@ -63,7 +60,7 @@
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_global_click">
                                 <div class="o_kanban_image">
-                                    <img t-att-src="kanban_image('sendo.seller.product', 'image', record.raw_value)"
+                                    <img t-att-src="kanban_image('sendo.seller.product', 'image', record.id.raw_value)"
                                          class="o_image_64_contain"/>
                                 </div>
                                 <div class="oe_kanban_details">

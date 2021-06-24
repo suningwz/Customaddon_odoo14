@@ -10,10 +10,10 @@
     """,
     'category': 'Uncategorized',
     'website': '#',
-    'depends': ['base', ],
+    'depends': ['base', 'mail'],
     'data': [
         'security/ir.model.access.csv',
-        # 'data/cron_job_sendo.xml',
+        'data/cron_job_sendo.xml',
         'wizard/connect_to_shop_wizard.xml',
         'views/sendo_seller_product_view.xml',
         'views/sendo_list_order_view.xml',
