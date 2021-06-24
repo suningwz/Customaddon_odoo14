@@ -1,6 +1,6 @@
 import requests
 import json
-from datetime import *
+from datetime import datetime
 from odoo import fields, models, api
 from urllib.request import urlopen
 import base64
@@ -20,16 +20,16 @@ class SendoSellerProduct(models.Model):
     store_name = fields.Char()
     image = fields.Binary()
 
-    date_from = fields.Date()
-    date_to = fields.Date()
+    date_from = fields.Char()
+    date_to = fields.Char()
 
-    product_get_token = fields.Many2many('sendo.connect.wizard')
-    token_sendo = fields.Char(related='product_get_token.token_connection')
+    # product_get_token = fields.Many2many('sendo.connect.wizard')
+    # token_sendo = fields.Char(related='product_get_token.token_connection')
 
     @api.onchange('date_from')
     def get_date_to(self):
         for rec in self:
-            rec.date_to = date.today()
+            rec.date_to = (datetime.today()).strftime("%Y-%m-%d")
 
             # Function get list product
             rec.get_seller_product_sendo()
@@ -38,6 +38,8 @@ class SendoSellerProduct(models.Model):
 
     def get_seller_product_sendo(self):
         for rec in self:
+            current_seller = self.env['sendo.seller'].sudo().search([])[0]
+
             url = "https://open.sendo.vn/api/partner/product/search/"
 
             payload = json.dumps({
@@ -48,7 +50,7 @@ class SendoSellerProduct(models.Model):
             })
             headers = {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + rec.token_sendo
+                'Authorization': 'Bearer ' + current_seller.token_connection
             }
 
             response = requests.request("POST", url, headers=headers, data=payload)
@@ -69,4 +71,3 @@ class SendoSellerProduct(models.Model):
                     val['store_name'] = product['store_name']
                     val['image'] = base64.b64encode(urlopen(product["image"]).read())
                 self.env['sendo.seller.product'].create(val)
-

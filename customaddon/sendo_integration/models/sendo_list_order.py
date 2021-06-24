@@ -1,6 +1,6 @@
 import requests
 import json
-from datetime import *
+from datetime import datetime
 from odoo import fields, models, api
 
 
@@ -9,35 +9,35 @@ class SendoListOrder(models.Model):
     _description = "List Order"
 
     #   Information Order
-    order_number = fields.Char()
-    order_status = fields.Integer()
-    payment_status = fields.Integer()
-    payment_method = fields.Integer()
-    total_amount = fields.Float()
-    total_amount_buyer = fields.Float()
-    sub_total = fields.Float()
-    receiver_name = fields.Char()
-    buyer_phone = fields.Char()
-    receiver_full_address = fields.Char()
-    receiver_email = fields.Char()
+    order_number = fields.Char(stored=True)
+    order_status = fields.Integer(stored=True)
+    payment_status = fields.Integer(stored=True)
+    payment_method = fields.Integer(stored=True)
+    total_amount = fields.Float(stored=True)
+    total_amount_buyer = fields.Float(stored=True)
+    sub_total = fields.Float(stored=True)
+    receiver_name = fields.Char(stored=True)
+    buyer_phone = fields.Char(stored=True)
+    receiver_full_address = fields.Char(stored=True)
+    receiver_email = fields.Char(stored=True)
 
     #   Information Product In Order
-    product_variant_id = fields.Char()
-    product_name = fields.Char()
-    sku = fields.Char()
-    quantity = fields.Integer()
-    price = fields.Float()
+    product_variant_id = fields.Char(stored=True)
+    product_name = fields.Char(stored=True)
+    sku = fields.Char(stored=True)
+    quantity = fields.Integer(stored=True)
+    price = fields.Float(stored=True)
 
-    date_from = fields.Date()
-    date_to = fields.Date()
+    date_from = fields.Char()
+    date_to = fields.Char()
 
-    order_get_token = fields.Many2many('sendo.connect.wizard')
-    token_sendo = fields.Char(related='order_get_token.token_connection')
+    # order_get_token = fields.Many2many('sendo.connect.wizard')
+    # token_sendo = fields.Char(related='order_get_token.token_connection')
 
     @api.onchange('date_from')
     def get_date_to(self):
         for rec in self:
-            rec.date_to = date.today()
+            rec.date_to = (datetime.today()).strftime("%Y-%m-%d")
 
             # Function get list product
             rec.get_list_order_sendo()
@@ -46,6 +46,7 @@ class SendoListOrder(models.Model):
 
     def get_list_order_sendo(self):
         for rec in self:
+            current_seller = self.env['sendo.seller'].sudo().search([])[0]
 
             url = "https://open.sendo.vn/api/partner/salesorder/search"
             payload = json.dumps({
@@ -59,7 +60,7 @@ class SendoListOrder(models.Model):
             })
             headers = {
                 'Content-Type': 'application/json',
-                'Authorization': 'Bearer ' + rec.token_sendo
+                'Authorization': 'Bearer ' + current_seller.token_connection
             }
 
             response = requests.request("POST", url, headers=headers, data=payload)

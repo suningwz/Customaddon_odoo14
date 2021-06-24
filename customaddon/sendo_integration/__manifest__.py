@@ -17,7 +17,7 @@
         'views/sendo_seller_product_view.xml',
         'views/sendo_list_order_view.xml',
         'views/sendo_categories_view.xml',
-        # 'views/sendo_seller_view.xml',
+        'views/sendo_seller_view.xml',
         # 'views/assets_backend.xml',
     ],
     'demo': [

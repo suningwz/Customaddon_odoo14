@@ -55,27 +55,27 @@
             </field>
         </record>
 
-        <record id="ir_cron_update_category_sendo" model="ir.cron">
-        <field name="name">Update Category Sendo</field>
-        <field name="model_id" ref="sendo_integration.model_sendo_categories"/>
-        <field name="state">code</field>
-        <field name="code">model.get_categories_sendo()</field>
-        <field name="interval_number">8</field>
-        <field name="interval_type">hours</field>
-        <field name="numbercall">-1</field>
-        <field name="doall" eval="False"/>
-        </record>
+<!--        <record id="ir_cron_update_category_sendo" model="ir.cron">-->
+<!--        <field name="name">Update Category Sendo</field>-->
+<!--        <field name="model_id" ref="sendo_integration.model_sendo_categories"/>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">model.get_categories_sendo()</field>-->
+<!--        <field name="interval_number">8</field>-->
+<!--        <field name="interval_type">hours</field>-->
+<!--        <field name="numbercall">-1</field>-->
+<!--        <field name="doall" eval="False"/>-->
+<!--        </record>-->
 
-        <record id="ir_cron_update_child_categories_sendo" model="ir.cron">
-        <field name="name">Update Child Categories Sendo</field>
-        <field name="model_id" ref="sendo_integration.model_sendo_categories"/>
-        <field name="state">code</field>
-        <field name="code">model.get_child_categories_sendo()</field>
-        <field name="interval_number">1</field>
-        <field name="interval_type">hours</field>
-        <field name="numbercall">-1</field>
-        <field name="doall" eval="False"/>
-        </record>
+<!--        <record id="ir_cron_update_child_categories_sendo" model="ir.cron">-->
+<!--        <field name="name">Update Child Categories Sendo</field>-->
+<!--        <field name="model_id" ref="sendo_integration.model_sendo_categories"/>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">model.get_child_categories_sendo()</field>-->
+<!--        <field name="interval_number">1</field>-->
+<!--        <field name="interval_type">hours</field>-->
+<!--        <field name="numbercall">-1</field>-->
+<!--        <field name="doall" eval="False"/>-->
+<!--        </record>-->
 
         <menuitem
                 name="Sendo Categories"

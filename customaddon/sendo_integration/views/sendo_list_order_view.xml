@@ -103,16 +103,16 @@
             </field>
         </record>
 
-        <record id="ir_cron_update_list_order_sendo" model="ir.cron">
-        <field name="name">Update List Order Sendo</field>
-        <field name="model_id" ref="sendo_integration.model_sendo_list_order"/>
-        <field name="state">code</field>
-        <field name="code">model.get_list_order_sendo()</field>
-        <field name="interval_number">1</field>
-        <field name="interval_type">days</field>
-        <field name="numbercall">-1</field>
-        <field name="doall" eval="False"/>
-        </record>
+<!--        <record id="ir_cron_update_list_order_sendo" model="ir.cron">-->
+<!--        <field name="name">Update List Order Sendo</field>-->
+<!--        <field name="model_id" ref="sendo_integration.model_sendo_list_order"/>-->
+<!--        <field name="state">code</field>-->
+<!--        <field name="code">model.get_list_order_sendo()</field>-->
+<!--        <field name="interval_number">1</field>-->
+<!--        <field name="interval_type">days</field>-->
+<!--        <field name="numbercall">-1</field>-->
+<!--        <field name="doall" eval="False"/>-->
+<!--        </record>-->
 
         <menuitem
                 name="My Order"

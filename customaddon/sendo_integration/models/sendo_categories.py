@@ -16,17 +16,19 @@ class SendoCategories(models.Model):
     count_category = fields.Integer(default=0)
     count_category_child = fields.Integer(default=0)
 
-    product_get_token = fields.Many2many('sendo.connect.wizard')
-    token_sendo = fields.Char(related='product_get_token.token_connection')
+    # product_get_token = fields.Many2many('sendo.connect.wizard')
+    # token_sendo = fields.Char(related='product_get_token.token_connection')
 
     def get_categories_sendo(self):
         for rec in self:
             if rec.count_category < 1:
+                current_seller = self.env['sendo.seller'].sudo().search([])[0]
+
                 url = "https://open.sendo.vn/api/partner/category/0"
 
                 payload = {}
                 headers = {
-                    'Authorization': 'Bearer ' + rec.token_sendo
+                    'Authorization': 'Bearer ' + current_seller.token_connection
                 }
 
                 response = requests.request("GET", url, headers=headers, data=payload)
@@ -54,13 +56,14 @@ class SendoCategories(models.Model):
     def get_child_categories_sendo(self):
         for rec in self:
             if rec.count_category_child < 2:
+                current_seller = self.env['sendo.seller'].sudo().search([])[0]
                 has_not_called_api = self.env['tiki.categories'].sudo().search([('level', '!=', 4)])
                 for a in has_not_called_api:
                     url = 'https://open.sendo.vn/api/partner/category/' + str(a['category_id'])
 
                     payload = {}
                     headers = {
-                        'Authorization': 'Bearer ' + self.token_sendo
+                        'Authorization': 'Bearer ' + current_seller.token_connection
                     }
 
                     response_raw = requests.request("GET", url, headers=headers, data=payload)
