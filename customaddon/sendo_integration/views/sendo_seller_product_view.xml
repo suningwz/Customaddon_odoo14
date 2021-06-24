@@ -36,6 +36,12 @@
             <field name="model">sendo.seller.product</field>
             <field name="arch" type="xml">
                 <tree string="Sendo Product" sample="1">
+                    <header>
+                        <button name="get_seller_product_sendo" string="Update Product"
+                                class="btn-primary" type="object" />
+                    </header>
+                    <button name="get_seller_product_sendo" string="Update Product"
+                                class="btn-primary" type="object" />
                     <field name="name"/>
                     <field name="seller_product_id"/>
                     <field name="category_for_name"/>
@@ -52,6 +58,10 @@
             <field name="model">sendo.seller.product</field>
             <field name="arch" type="xml">
                 <kanban sample="1">
+                    <header>
+                        <button name="get_seller_product_sendo" string="Update Product"
+                                class="btn-primary" type="object" />
+                    </header>
                     <field name="name"/>
                     <field name="promotion_price"/>
                     <field name="sku"/>
@@ -99,7 +109,7 @@
         <menuitem
                 name="Sendo Integration"
                 id="sendo_seller_product_menu"
-                action="sendo_seller_product_act_window"
+                action="sendo_seller_connect_act_window"
                 web_icon="sendo_integration,static/description/icon.png"/>
 
         <menuitem

@@ -39,6 +39,10 @@
             <field name="model">sendo.list.order</field>
             <field name="arch" type="xml">
                 <tree string="Sendo Order" sample="1">
+                    <header>
+                        <button name="get_list_order_sendo" string="Update Order"
+                                class="btn-primary" type="object"/>
+                    </header>
                     <field name="order_number"/>
                     <field name="order_status"/>
                     <field name="payment_status"/>
@@ -97,6 +101,17 @@
                     There is no examples click Create to add new Order.
                 </p>
             </field>
+        </record>
+
+        <record id="ir_cron_update_list_order_sendo" model="ir.cron">
+        <field name="name">Update List Order Sendo</field>
+        <field name="model_id" ref="sendo_integration.model_sendo_list_order"/>
+        <field name="state">code</field>
+        <field name="code">model.get_list_order_sendo()</field>
+        <field name="interval_number">1</field>
+        <field name="interval_type">days</field>
+        <field name="numbercall">-1</field>
+        <field name="doall" eval="False"/>
         </record>
 
         <menuitem
