@@ -69,12 +69,16 @@
                                     </strong>
                                     <ul>
                                         <li>
-                                            SKU:
+                                            <h6>
+                                                SKU:
                                             <field name="sku"/>
+                                            </h6>
                                         </li>
                                         <li>
-                                            Price:
+                                            <h6>
+                                                Price:
                                             <field name="promotion_price" widget="monetary"/>
+                                            </h6>
                                         </li>
                                     </ul>
                                 </div>

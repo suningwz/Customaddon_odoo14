@@ -9,18 +9,20 @@ class SendoCategories(models.Model):
 
     category_id = fields.Integer(string='Category ID')
     name = fields.Text(string='Name')
-    level = fields.Integer(string='Primary')
+    level = fields.Integer(string='Level')
     sendo_parent_id = fields.Char(string='Sendo Parent ID')
+    has_called = fields.Boolean(default=False)
+
     parent_id = fields.Many2one(comodel_name='sendo.categories', string='Parent Category')
 
-    count_category = fields.Integer(default=0)
-    count_category_child = fields.Integer(default=0)
+    # count_category = fields.Integer(default=0)
+    # count_category_child = fields.Integer(default=0)
 
     # product_get_token = fields.Many2many('sendo.connect.wizard')
     # token_sendo = fields.Char(related='product_get_token.token_connection')
 
     def get_categories_sendo(self):
-        if self.count_category < 1:
+        # if self.count_category < 1:
             current_seller = self.env['sendo.seller'].sudo().search([])[0]
 
             url = "https://open.sendo.vn/api/partner/category/0"
@@ -32,15 +34,18 @@ class SendoCategories(models.Model):
 
             response = requests.request("GET", url, headers=headers, data=payload)
 
-            categories = response.json()
+            result_category = response.json()
+            categories = result_category["result"]
             val = {}
             if categories:
                 for cate in categories:
                     try:
-                        # if ('id' and 'name' and 'level') in cate:
+                        if ('id' and 'name' and 'level') in cate:
                             val['category_id'] = cate['id']
                             val['name'] = cate['name']
+                            val['sendo_parent_id'] = cate['parent_id']
                             val['level'] = cate['level']
+                            val['has_called'] = False
                     except Exception as e:
                         print(e)
                     existed_category = self.env['sendo.categories'].search([('category_id', '=', cate['id'])], limit=1)
@@ -48,14 +53,16 @@ class SendoCategories(models.Model):
                         self.create(val)
                     else:
                         existed_category.env['sendo.categories'].write(val)
-            self.count_category = self.count_category + 1
-        else:
-            pass
+            # self.count_category = self.count_category + 1
+        # else:
+        #     pass
+        # return self.count_category
 
     def get_child_categories_sendo(self):
-        if self.count_category_child < 2:
+        # if self.count_category_child < 2:
             current_seller = self.env['sendo.seller'].sudo().search([])[0]
-            has_not_called_api = self.env['tiki.categories'].sudo().search([('level', '!=', 4)])
+            has_not_called_api = self.env['sendo.categories'].sudo().search([('has_called', '=', False), ('level', '!=', 4)])
+            # has_not_called_api = self.env['sendo.categories'].sudo().search([('has_called', '=', False), ('attribute', '!=', True)])
             for a in has_not_called_api:
                 url = 'https://open.sendo.vn/api/partner/category/' + str(a['category_id'])
 
@@ -65,20 +72,25 @@ class SendoCategories(models.Model):
                 }
 
                 response_raw = requests.request("GET", url, headers=headers, data=payload)
-                response = response_raw.json()
+
+                result_child_cate = response_raw.json()
+                response = result_child_cate["result"]
                 val = {}
                 if response:
                     for res in response:
                         try:
                             if ('id' and 'name' and 'level') in res:
                                 val['category_id'] = res['id']
-                                val['name'] = a.name + ' / ' + res['name']
+                                val['name'] = res['name']
                                 val['level'] = res['level']
                                 val['sendo_parent_id'] = a.category_id
                                 val['parent_id'] = a.id
+                                val['has_called'] = False
                                 self.create(val)
                         except Exception as e:
                             print(e)
-            self.count_category_child = self.count_category_child + 1
-        else:
-            pass
+                a.has_called = True
+        #     self.count_category_child = self.count_category_child + 1
+        # else:
+        #     pass
+        # return self.count_category_child
