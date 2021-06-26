@@ -37,6 +37,7 @@ class SellerConnectWizard(models.TransientModel):
                     self.env['sendo.seller'].create(val)
                 else:
                     existed_secret.write(val)
+                # raise ValidationError(_('Connecting My Shop In Sendo Successful.'))
             else:
                 raise ValidationError(_('My Shop Key or Secret Key is wrong.'))
 

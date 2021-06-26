@@ -115,7 +115,7 @@
         <menuitem
                 name="Sendo Integration"
                 id="sendo_seller_product_menu"
-                action="sendo_seller_connect_act_window"
+                action="sendo_seller_product_act_window"
                 web_icon="sendo_integration,static/description/icon.png"/>
 
         <menuitem
