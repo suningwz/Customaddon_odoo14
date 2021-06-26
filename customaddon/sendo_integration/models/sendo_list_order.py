@@ -7,6 +7,7 @@ from odoo import fields, models, api
 class SendoListOrder(models.Model):
     _name = "sendo.list.order"
     _description = "List Order Sendo"
+    _rec_name = 'order_number'
 
     #   Information Order
     order_number = fields.Char()
@@ -116,8 +117,8 @@ class SendoListOrder(models.Model):
                 val['buyer_phone'] = val_order['buyer_phone']
                 val['receiver_full_address'] = val_order['receiver_full_address']
                 val['receiver_email'] = val_order['receiver_email']
-                existed_category = self.env['sendo.list.order'].search([('order_number', '=', val_order['order_number'])], limit=1)
-                if len(existed_category) < 1:
+                existed_order = self.env['sendo.list.order'].search([('order_number', '=', str(val_order['order_number']))], limit=1)
+                if len(existed_order) < 1:
                     new_record = self.env['sendo.list.order'].create(val)
                     if new_record:
                         if 'sku_details' in rec:
@@ -133,18 +134,8 @@ class SendoListOrder(models.Model):
                                 if list_product:
                                     new_record.product_in_order = [(0, 0, e) for e in list_product]
                 else:
-                    pass
-
-    # # Form mau lay list product
-    # list_vals_1 = []
-    # if dict_salary_bonus:
-    #     for vi_tri in dict_salary_bonus:
-    #         list_vals_1.append({
-    #             'vi_tri': vi_tri.id,
-    #             'luong_thuong': dict_salary_bonus[vi_tri],
-    #         })
-    # if list_vals_1:
-    #     self.quy_luong_thuong_gian_tiep_ids = [(0, 0, e) for e in list_vals_1]
+                    existed_order.env['sendo.list.order'].sudo().write(val)
+                    # pass
 
 
 # val_order = {}
