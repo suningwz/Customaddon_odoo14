@@ -1,3 +1,4 @@
+import alphabets as alphabets
 import requests
 import json
 from datetime import datetime
@@ -117,7 +118,8 @@ class SendoListOrder(models.Model):
                 val['buyer_phone'] = val_order['buyer_phone']
                 val['receiver_full_address'] = val_order['receiver_full_address']
                 val['receiver_email'] = val_order['receiver_email']
-                existed_order = self.env['sendo.list.order'].search([('order_number', '=', str(val_order['order_number']))], limit=1)
+                existed_order = self.env['sendo.list.order'].sudo().search(
+                    [('order_number', '=', str(val_order['order_number']))], limit=1)
                 if len(existed_order) < 1:
                     new_record = self.env['sendo.list.order'].create(val)
                     if new_record:
@@ -133,34 +135,10 @@ class SendoListOrder(models.Model):
                                 })
                                 if list_product:
                                     new_record.product_in_order = [(0, 0, e) for e in list_product]
+                                list_product = []
                 else:
+                    # change_order = existed_order.env['sendo.list.order'].sudo().write(val)
                     existed_order.env['sendo.list.order'].sudo().write(val)
-                    # pass
-
-
-# val_order = {}
-# for order in list_order:
-#     val_order['order_number'] = order['order_number']
-#     val_order['order_status'] = order['order_status']
-#     val_order['payment_status'] = order['payment_status']
-#     val_order['payment_method'] = order['payment_method']
-#     val_order['total_amount'] = order['total_amount']
-#     val_order['total_amount_buyer'] = order['total_amount_buyer']
-#     val_order['sub_total'] = order['sub_total']
-#     val_order['receiver_name'] = order['receiver_name']
-#     val_order['buyer_phone'] = order['buyer_phone']
-#     val_order['receiver_full_address'] = order['receiver_full_address']
-#     val_order['receiver_email'] = order['receiver_email']
-#     self.env['sendo.list.order'].create(val_order)
-#
-# val_product = {}
-# for product in detail_order:
-#     val_product['product_variant_id'] = product['product_variant_id']
-#     val_product['product_name'] = product['product_name']
-#     val_product['sku'] = product['sku']
-#     val_product['quantity'] = product['quantity']
-#     val_product['price'] = product['price']
-# self.env['sendo.list.order'].create(val_product)
 
 
 class ProductOrderSendo(models.Model):
