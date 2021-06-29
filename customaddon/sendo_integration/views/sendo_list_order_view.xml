@@ -50,6 +50,7 @@
                                             <group>
                                                 <field name="quantity"/>
                                                 <field name="price"/>
+                                                <field name="order_date_time_stamp"/>
                                             </group>
                                         </group>
                                     </form>
@@ -71,6 +72,7 @@
                     <field name="payment_method"/>
                     <field name="total_amount"/>
                     <field name="total_amount_buyer"/>
+                    <field name="order_date_time_stamp"/>
                 </tree>
             </field>
         </record>

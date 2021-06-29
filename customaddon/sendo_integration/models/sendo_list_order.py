@@ -46,6 +46,7 @@ class SendoListOrder(models.Model):
     total_amount = fields.Float()
     total_amount_buyer = fields.Float()
     sub_total = fields.Float()
+    order_date_time_stamp = fields.Float(string='Order Date')
     receiver_name = fields.Char()
     buyer_phone = fields.Integer()
     receiver_full_address = fields.Char()
@@ -115,6 +116,7 @@ class SendoListOrder(models.Model):
                 val['total_amount'] = val_order['total_amount']
                 val['total_amount_buyer'] = val_order['total_amount_buyer']
                 val['sub_total'] = val_order['sub_total']
+                val['order_date_time_stamp'] = datetime.fromtimestamp(val_order['order_date_time_stamp'])
                 val['receiver_name'] = val_order['receiver_name']
                 val['buyer_phone'] = val_order['buyer_phone']
                 val['receiver_full_address'] = val_order['receiver_full_address']
@@ -178,6 +180,7 @@ class SendoListOrder(models.Model):
                 val['amount_total'] = val_order['total_amount']
                 # val['total_amount_buyer'] = val_order['total_amount_buyer']
                 val['amount_untaxed'] = val_order['sub_total']
+                val['date_order'] = datetime.fromtimestamp(val_order['order_date_time_stamp'])
                 val['receiver_name'] = val_order['receiver_name']
                 val['buyer_phone'] = val_order['buyer_phone']
                 val['receiver_full_address'] = val_order['receiver_full_address']
@@ -219,3 +222,6 @@ class ProductOrderSendo(models.Model):
     price = fields.Float()
 
     product_in_list_order = fields.Many2one('sendo.list.order', string="Appointment")
+
+    product_in_list_order_sale_order = fields.Many2one('sendo.list.order', string="Appointment")
+

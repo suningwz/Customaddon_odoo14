@@ -120,14 +120,14 @@ class SendoCategories(models.Model):
             for cate in categories:
                 try:
                     if ('id' and 'name' and 'level') in cate:
-                        val['parent_path'] = cate['id']
+                        val['sendo_cate_id'] = cate['id']
                         val['name'] = cate['name']
-                        val['parent_id'] = cate['parent_id']
-                        val['level'] = cate['level']
-                        val['has_called'] = False
+                        val['sendo_parent_id'] = cate['parent_id']
+                        val['sendo_level'] = cate['level']
+                        val['sendo_has_called'] = False
                 except Exception as e:
                     print(e)
-                existed_category = self.env['product.category'].search([('category_id', '=', cate['id'])], limit=1)
+                existed_category = self.env['product.category'].search([('sendo_cate_id', '=', cate['id'])], limit=1)
                 if len(existed_category) < 1:
                     self.env['product.category'].create(val)
                 else:
@@ -137,9 +137,9 @@ class SendoCategories(models.Model):
     def get_child_categories_sendo_to_product_template(self):
         current_seller = self.env['sendo.seller'].sudo().search([])[0]
         has_not_called_api = self.env['product.category'].sudo().search(
-            [('has_called', '=', False), ('level', '!=', 4)])
+            [('sendo_has_called', '=', False), ('sendo_level', '!=', 4)])
         for a in has_not_called_api:
-            url = 'https://open.sendo.vn/api/partner/category/' + str(a['category_id'])
+            url = 'https://open.sendo.vn/api/partner/category/' + str(a['sendo_cate_id'])
 
             payload = {}
             headers = {
@@ -155,13 +155,14 @@ class SendoCategories(models.Model):
                 for res in response:
                     try:
                         if ('id' and 'name' and 'level') in res:
-                            val['category_id'] = res['id']
+                            val['sendo_cate_id'] = res['id']
                             val['name'] = res['name']
-                            val['level'] = res['level']
-                            val['sendo_parent_id'] = a.category_id
+                            val['sendo_level'] = res['level']
+                            val['sendo_parent_id'] = a.sendo_cate_id
                             val['parent_id'] = a.id
-                            val['has_called'] = False
+                            val['sendo_has_called'] = False
                             self.env['product.category'].create(val)
                     except Exception as e:
                         print(e)
-            a.has_called = True
+            a.sendo_has_called = True
+
