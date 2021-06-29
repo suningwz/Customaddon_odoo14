@@ -18,12 +18,13 @@
                         <group>
                             <group>
                                 <field name="seller_product_id"/>
+                                <field name="category_for_id"/>
                                 <field name="category_for_name"/>
                                 <field name="sku"/>
                             </group>
                             <group>
                                 <field name="stock_quantity"/>
-                                <field name="promotion_price" widget="monetary"/>
+                                <field name="final_price_min" widget="monetary"/>
                                 <field name="store_name"/>
                             </group>
                         </group>
@@ -41,7 +42,7 @@
                     <field name="category_for_name"/>
                     <field name="sku"/>
                     <field name="stock_quantity"/>
-                    <field name="promotion_price" widget="monetary"/>
+                    <field name="final_price_min" widget="monetary"/>
                     <field name="store_name"/>
                 </tree>
             </field>
@@ -54,8 +55,9 @@
                 <kanban sample="1">
                     <field name="id" invisible="1"/>
                     <field name="name"/>
-                    <field name="promotion_price"/>
+                    <field name="final_price_min"/>
                     <field name="sku"/>
+                    <field name="stock_quantity"/>
                     <templates>
                         <t t-name="kanban-box">
                             <div t-attf-class="oe_kanban_global_click">
@@ -69,16 +71,22 @@
                                     </strong>
                                     <ul>
                                         <li>
-                                            <h6>
+                                            <h7>
                                                 SKU:
                                             <field name="sku"/>
-                                            </h6>
+                                            </h7>
                                         </li>
                                         <li>
-                                            <h6>
+                                            <h7>
                                                 Price:
-                                            <field name="promotion_price" widget="monetary"/>
-                                            </h6>
+                                            <field name="final_price_min" widget="monetary"/>
+                                            </h7>
+                                        </li>
+                                        <li>
+                                            <h7>
+                                                Available Product:
+                                            <field name="stock_quantity"/>
+                                            </h7>
                                         </li>
                                     </ul>
                                 </div>

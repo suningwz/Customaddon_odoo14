@@ -75,6 +75,7 @@ class SendoListOrder(models.Model):
 
         self.date_from = self.date_to
 
+    #       Add To Module Sendo Integration
     def get_list_order_sendo(self):
         current_seller = self.env['sendo.seller'].sudo().search([])[0]
 
@@ -138,9 +139,74 @@ class SendoListOrder(models.Model):
                                 list_product = []
                 else:
                     # change_order = existed_order.env['sendo.list.order'].sudo().write(val)
-                    existed_order.env['sendo.list.order'].sudo().write(val)
+                    existed_order.sudo().write(val)
 
 
+    #       Add To Module Sale
+    def get_list_order_sendo_to_product_template(self):
+        current_seller = self.env['sendo.seller'].sudo().search([])[0]
+
+        url = "https://open.sendo.vn/api/partner/salesorder/search"
+        payload = json.dumps({
+            "page_size": 10,
+            "order_status": None,
+            "order_date_from": self.date_from or None,
+            "order_date_to": self.date_to or None,
+            "order_status_date_from": None,
+            "order_status_date_to": None,
+            "token": None
+        })
+        headers = {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer ' + current_seller.token_connection
+        }
+
+        response = requests.request("POST", url, headers=headers, data=payload)
+
+        seller_products = response.json()
+        list_order = seller_products["result"]["data"]
+
+        val = {}
+        list_product = []
+        for rec in list_order:
+            if 'sales_order' in rec:
+                val_order = rec['sales_order']
+                val['name'] = str(val_order['order_number'])
+                # val['order_status'] = str(val_order['order_status'])
+                # val['payment_status'] = str(val_order['payment_status'])
+                # val['payment_method'] = str(val_order['payment_method'])
+                val['amount_total'] = val_order['total_amount']
+                # val['total_amount_buyer'] = val_order['total_amount_buyer']
+                val['amount_untaxed'] = val_order['sub_total']
+                val['receiver_name'] = val_order['receiver_name']
+                val['buyer_phone'] = val_order['buyer_phone']
+                val['receiver_full_address'] = val_order['receiver_full_address']
+                val['receiver_email'] = val_order['receiver_email']
+                existed_order = self.env['sendo.list.order'].sudo().search(
+                    [('order_number', '=', str(val_order['order_number']))], limit=1)
+                if len(existed_order) < 1:
+                    new_record = self.env['sale.order'].create(val)
+                    if new_record:
+                        if 'sku_details' in rec:
+                            val_product = rec['sku_details']
+                            for product in val_product:
+                                list_product.append({
+                                    'product_variant_id': str(product['product_variant_id']),
+                                    'product_name': product['product_name'],
+                                    'sku': product['sku'],
+                                    'quantity': product['quantity'],
+                                    'price': product['price']
+                                })
+                                if list_product:
+                                    new_record.product_in_order = [(0, 0, e) for e in list_product]
+                                list_product = []
+                else:
+                    # change_order = existed_order.env['sendo.list.order'].sudo().write(val)
+                    existed_order.sudo().write(val)
+
+
+
+    #       Class Get List Product In List Order
 class ProductOrderSendo(models.Model):
     _name = "product.order.sendo"
     _description = "Appointment Prescription Line"
