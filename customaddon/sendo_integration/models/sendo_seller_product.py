@@ -16,7 +16,7 @@ class SendoSellerProduct(models.Model):
     final_price_min = fields.Float(string='Price', store=True)
     stock_quantity = fields.Integer(string='Available Product', store=True)
     sku = fields.Char('SKU', store=True)
-    category_for_id = fields.Integer(store=True)
+    category_for_id = fields.Integer(store=True, string='Category ID')
     store_name = fields.Char(store=True)
     image = fields.Binary(store=True)
 
@@ -25,6 +25,9 @@ class SendoSellerProduct(models.Model):
 
     # product_get_token = fields.Many2many('sendo.connect.wizard')
     # token_sendo = fields.Char(related='product_get_token.token_connection')
+
+    categories = fields.Many2one(comodel_name='sendo.categories', string='Product Categories')
+
 
     # @api.onchange('date_from')
     def get_date_to(self):
@@ -72,6 +75,11 @@ class SendoSellerProduct(models.Model):
                     val['image'] = base64.b64encode(urlopen(product["image"]).read())
                     existed_seller_product = self.env['sendo.seller.product'].search(
                         [('seller_product_id', '=', product['id'])], limit=1)
+                    #   Link To Sendo Categories
+                    existed_categories_product = self.env['sendo.categories'].search(
+                        [('category_id', '=', product['cate_4_id'])], limit=1)
+                    val['categories'] = existed_categories_product.id
+                    #   Check Product In Database
                     if len(existed_seller_product) < 1:
                         self.env['sendo.seller.product'].create(val)
                     else:
@@ -106,8 +114,11 @@ class SendoSellerProduct(models.Model):
             val = {}
             for product in list_products:
                 if 'id' in product:
+                    #   Link To Sendo Categories
+                    existed_categories_product = self.env['product.category'].search(
+                        [('sendo_cate_id', '=', product['cate_4_id'])], limit=1)
+                    val['categ_id'] = existed_categories_product.id
                     val['type'] = 'product'
-                    val['categ_id'] = 1
                     val['name'] = product['name']
                     val['list_price'] = product['final_price_min']
                     # val['qty_available'] = product['stock_quantity']
@@ -118,6 +129,7 @@ class SendoSellerProduct(models.Model):
                     val['purchase_ok'] = False
                     val['image_1920'] = base64.b64encode(urlopen(product["image"]).read())
                     existed_seller_product = self.env['product.template'].search([('name', '=', product['name'])], limit=1)
+                    #   Check Product In Database
                     if len(existed_seller_product) < 1:
                         self.env['product.template'].create(val)
                     else:

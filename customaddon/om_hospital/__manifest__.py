@@ -19,7 +19,7 @@
         'views/patient_gender.xml',
         'views/appointment.xml',
         'views/doctor_view.xml',
-        'views/sale_order_inherit_view.xml',
+        # 'views/sale_order_inherit_view.xml',
 
 
     ],

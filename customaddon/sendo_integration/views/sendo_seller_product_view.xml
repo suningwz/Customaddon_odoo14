@@ -18,9 +18,10 @@
                         <group>
                             <group>
                                 <field name="seller_product_id"/>
-                                <field name="category_for_id"/>
-                                <field name="category_for_name"/>
+<!--                                <field name="category_for_name"/>-->
                                 <field name="sku"/>
+                                <field name="category_for_id"/>
+                                <field name="categories"/>
                             </group>
                             <group>
                                 <field name="stock_quantity"/>
@@ -39,7 +40,8 @@
                 <tree string="Sendo Product" sample="1">
                     <field name="name"/>
                     <field name="seller_product_id"/>
-                    <field name="category_for_name"/>
+<!--                    <field name="category_for_name"/>-->
+                    <field name="categories"/>
                     <field name="sku"/>
                     <field name="stock_quantity"/>
                     <field name="final_price_min" widget="monetary"/>
@@ -73,19 +75,19 @@
                                         <li>
                                             <h7>
                                                 SKU:
-                                            <field name="sku"/>
+                                                <field name="sku"/>
                                             </h7>
                                         </li>
                                         <li>
                                             <h7>
                                                 Price:
-                                            <field name="final_price_min" widget="monetary"/>
+                                                <field name="final_price_min" widget="monetary"/>
                                             </h7>
                                         </li>
                                         <li>
                                             <h7>
                                                 Available Product:
-                                            <field name="stock_quantity"/>
+                                                <field name="stock_quantity"/>
                                             </h7>
                                         </li>
                                     </ul>
@@ -109,16 +111,16 @@
             </field>
         </record>
 
-<!--        <record id="ir_cron_update_list_product_sendo" model="ir.cron">-->
-<!--            <field name="name">Update List Product Sendo</field>-->
-<!--            <field name="model_id" ref="sendo_integration.model_sendo_seller_product"/>-->
-<!--            <field name="state">code</field>-->
-<!--            <field name="code">model.get_date_to()</field>-->
-<!--            <field name="interval_number">1</field>-->
-<!--            <field name="interval_type">hours</field>-->
-<!--            <field name="numbercall">-1</field>-->
-<!--            <field name="doall" eval="False"/>-->
-<!--        </record>-->
+        <!--        <record id="ir_cron_update_list_product_sendo" model="ir.cron">-->
+        <!--            <field name="name">Update List Product Sendo</field>-->
+        <!--            <field name="model_id" ref="sendo_integration.model_sendo_seller_product"/>-->
+        <!--            <field name="state">code</field>-->
+        <!--            <field name="code">model.get_date_to()</field>-->
+        <!--            <field name="interval_number">1</field>-->
+        <!--            <field name="interval_type">hours</field>-->
+        <!--            <field name="numbercall">-1</field>-->
+        <!--            <field name="doall" eval="False"/>-->
+        <!--        </record>-->
 
         <menuitem
                 name="Sendo Integration"
