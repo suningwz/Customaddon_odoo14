@@ -9,3 +9,4 @@ class ApiSendoProductCategoryInherit(models.Model):
     sendo_level = fields.Integer(string='Level')
     sendo_parent_id = fields.Char(string='Sendo Parent ID')
     sendo_has_called = fields.Boolean(default=False)
+

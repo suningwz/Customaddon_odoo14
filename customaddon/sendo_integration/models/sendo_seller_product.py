@@ -118,8 +118,11 @@ class SendoSellerProduct(models.Model):
                     existed_categories_product = self.env['product.category'].search(
                         [('sendo_cate_id', '=', product['cate_4_id'])], limit=1)
                     val['categ_id'] = existed_categories_product.id
+                    val['sendo_product_id'] = product['id']
                     val['type'] = 'product'
                     val['name'] = product['name']
+                    val['taxes_id'] = None
+                    val['is_published'] = True
                     val['list_price'] = product['final_price_min']
                     # val['qty_available'] = product['stock_quantity']
                     val['default_code'] = product['sku']
@@ -137,3 +140,5 @@ class SendoSellerProduct(models.Model):
 
         except Exception as e:
             print(e)
+
+
