@@ -28,12 +28,21 @@ class ProductTemplateInheritSendo(models.Model):
         ('7', 'Chai'),
         ('8', 'Thùng')], string='Unit Product', required=True, default='1')
     sendo_stock_quantity = fields.Integer(string='Stock Quantity', required=True, default=50)
-    sendo_promotion_from_date = fields.Date(string='Promotion From Date', default=date.today())
+    sendo_promotion_from_date = fields.Date(string='Promotion From Date', default=date.today(), store=True)
     sendo_promotion_to_date = fields.Date(string='Promotion To Date', required=True,
-                                          default=date.today() + timedelta(days=9000))
+                                          default=date.today() + timedelta(days=9000), store=True)
     sendo_is_promotion = fields.Boolean(string='Promotion', compute='_compute_check_promotion_product', default=True,
                                         store=True)
     sendo_special_price = fields.Float(string='Special Price', required=True, default=0.5)
+    sendo_url_avatar_image = fields.Char(string='Image URL Product')
+    check_product_sendo = fields.Boolean(compute='_compute_check_product_sendo', store=True)
+
+    def _compute_check_product_sendo(self):
+        for rec in self:
+            if rec.sendo_product_id:
+                rec.check_product_sendo = True
+            else:
+                rec.check_product_sendo = False
 
     @api.constrains('sendo_special_price', 'list_price')
     def check_sendo_special_price(self):
@@ -90,7 +99,7 @@ class ProductTemplateInheritSendo(models.Model):
     #     self.create_or_update_product_sendo()
     #     return res
 
-    def create_or_update_product_sendo(self):
+    def create_product_sendo(self):
         try:
             current_seller = self.env['sendo.seller'].sudo().search([])[0]
 
@@ -100,7 +109,7 @@ class ProductTemplateInheritSendo(models.Model):
             url = "https://open.sendo.vn/api/partner/product"
 
             payload = {
-                "id": 0 or self.sendo_product_id,
+                "id": 0,
                 "name": self.name,
                 "sku": self.default_code,
                 "price": float(self.list_price),
@@ -123,7 +132,7 @@ class ProductTemplateInheritSendo(models.Model):
                 "seo_keyword": None,
                 "seo_title": None,
                 "seo_description": None,
-                "product_image": "https://cf.shopee.vn/file/9027f51bb7a4f2b8bb4b3ac9d36ea024",  # self.image_1920,
+                "product_image": self.sendo_url_avatar_image,
                 "brand_id": 0,
                 "video_links": None,
                 "height": self.sendo_height,
@@ -132,13 +141,11 @@ class ProductTemplateInheritSendo(models.Model):
                 "unit_id": int(self.sendo_unit_id),
                 "stock_quantity": self.sendo_stock_quantity,
                 "avatar": {
-                    "picture_url": "https://cf.shopee.vn/file/9027f51bb7a4f2b8bb4b3ac9d36ea024"
-                    # self.image_1920  numpy.array(Image.open(io.BytesIO(self.image_1920)))
+                    "picture_url": self.sendo_url_avatar_image
                 },
                 "pictures": [
                     {
-                        "picture_url": "https://salt.tikicdn.com/ts/product/73/06/53/7ded885d9939057b0520a63a26598512.jpg"
-                        # self.image_1920
+                        "picture_url": self.sendo_url_avatar_image
                     }
                 ],
                 "certificate_file": [
@@ -224,7 +231,142 @@ class ProductTemplateInheritSendo(models.Model):
                     [('default_code', '=', self.default_code)], limit=1)
                 existed_seller_product_sendo.sendo_product_id = int(response.json()["result"])
             else:
-                raise ValidationError(_('Create or Update Product Fail in Sync with Sendo.'))
+                raise ValidationError(_('Create Product Fail in Sync with Sendo.'))
+
+        except Exception as e:
+            print(e)
+
+
+    def update_product_sendo(self):
+        try:
+            current_seller = self.env['sendo.seller'].sudo().search([])[0]
+
+            search_cate_sendo = self.env['product.category'].sudo().search(
+                [('id', '=', self.categ_id.id)], limit=1)
+
+            url = "https://open.sendo.vn/api/partner/product" + self.sendo_product_id +""
+
+            payload = {
+                "id": self.sendo_product_id,
+                "name": self.name,
+                "sku": self.default_code,
+                "price": float(self.list_price),
+                "weight": float(self.weight * 1000),
+                "stock_availability": self.sendo_stock_availability,
+                "description": self.description or 'string',
+                "cat_4_id": search_cate_sendo.sendo_cate_id,
+                "tags": None,
+                "relateds": [
+                    # {
+                    #     "id": 0,
+                    #     "name": None,
+                    #     "sku": None,
+                    #     "category_name": None,
+                    #     "price": 0,
+                    #     "status": 0,
+                    #     "image": None
+                    # }
+                ],
+                "seo_keyword": None,
+                "seo_title": None,
+                "seo_description": None,
+                "product_image": self.sendo_url_avatar_image,
+                "brand_id": 0,
+                "video_links": None,
+                "height": self.sendo_height,
+                "length": self.sendo_length,
+                "width": self.sendo_width,
+                "unit_id": int(self.sendo_unit_id),
+                "stock_quantity": self.sendo_stock_quantity,
+                "avatar": {
+                    "picture_url": self.sendo_url_avatar_image
+                },
+                "pictures": [
+                    {
+                        "picture_url": self.sendo_url_avatar_image
+                    }
+                ],
+                "certificate_file": [
+                    # {
+                    #     "id": 0,
+                    #     "table_name": None,
+                    #     "table_id": 0,
+                    #     "file_name": None,
+                    #     "attachment_url": None,
+                    #     "display_order": 0
+                    # }
+                ],
+                "attributes": [
+                    # {
+                    #     "attribute_id": 0,
+                    #     "attribute_name": None,
+                    #     "attribute_code": None,
+                    #     "attribute_is_custom": False,
+                    #     "attribute_is_checkout": False,
+                    #     "attribute_values": [
+                    #         {
+                    #             "id": 0,
+                    #             "value": None,
+                    #             "attribute_img": None,
+                    #             "is_selected": False,
+                    #             "is_custom": False
+                    #         }
+                    #     ]
+                    # }
+                ],
+                "promotion_from_date": self.sendo_promotion_from_date.strftime("%Y-%m-%d"),
+                "promotion_to_date": self.sendo_promotion_to_date.strftime("%Y-%m-%d"),
+                "is_promotion": self.sendo_is_promotion,
+                "extended_shipping_package":
+                    {
+                        "is_using_instant": False,
+                        "is_using_in_day": False,
+                        "is_self_shipping": False,
+                        "is_using_standard": True,
+                        "is_using_eco": False
+                    },
+                "variants": [
+                    # {
+                    #     "variant_attributes": [
+                    #         {
+                    #             "attribute_id": 0,
+                    #             "attribute_code": None,
+                    #             "option_id": 0
+                    #         }
+                    #     ],
+                    #     "variant_sku": None,
+                    #     "variant_price": 0,
+                    #     "variant_promotion_start_date": None,
+                    #     "variant_promotion_end_date": None,
+                    #     "variant_special_price": 0,
+                    #     "variant_quantity": 0
+                    # }
+                ],
+                "is_config_variant": False,
+                "special_price": self.sendo_special_price,
+                "voucher": {
+                    "product_type": 1,
+                    "start_date": None,
+                    "end_date": None,
+                    "is_check_date": False
+                }
+            }
+
+            headers = {
+                'Content-Type': 'application/json',
+                'Authorization': 'Bearer ' + current_seller.token_connection
+            }
+
+            response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
+
+            print(response)
+            if response.json()["error"]:
+                print(response.json()["error"])
+                raise ValidationError(_(response.json()["error"]["message"]))
+            if response.json()["success"]:
+                print(response.json())
+            else:
+                raise ValidationError(_('Update Product Fail in Sync with Sendo.'))
 
         except Exception as e:
             print(e)

@@ -143,6 +143,7 @@ class SendoSellerProduct(models.Model):
                     val['sendo_promotion_to_date'] = datetime.fromtimestamp(int(product['promotion_to_date_timestamp'])) or None
                     # val['sendo_is_promotion'] = product['is_promotion']
                     val['sendo_special_price'] = float(product['special_price'])
+                    val['sendo_url_avatar_image'] = product['image']
                     #
                     val['image_1920'] = base64.b64encode(urlopen(product["image"]).read())
                     existed_seller_product = self.env['product.template'].search([('name', '=', product['name'])], limit=1)

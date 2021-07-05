@@ -8,10 +8,20 @@
             <field name="inherit_id" ref="product.product_template_only_form_view"/>
             <field name="arch" type="xml">
                 <header>
-                    <button id="button_create_or_update_product_sendo" name="create_or_update_product_sendo"
-                            type="object" string="Create or Update Sendo Product"
+                    <button id="button_create_product_sendo" name="create_product_sendo"
+                            type="object" string="Create Sendo Product"
                             confirm="Are you sure with your choice?"
-                            class="btn-primary"/>
+                            class="btn-primary"
+                            attrs="{'invisible':[('check_product_sendo', '=', True)]}"
+                    />
+                    <!--                            attrs="{'invisible':[('sendo_product_id', '=', False)]}"-->
+
+                    <button id="button_update_product_sendo" name="update_product_sendo"
+                            type="object" string="Update Sendo Product"
+                            confirm="Are you sure with your choice?"
+                            class="btn-primary"
+                            attrs="{'invisible':[('check_product_sendo', '!=', True)]}"
+                    />
                 </header>
                 <xpath expr="//field[@name='company_id']" position="after">
                     <!-- Add your fields or attributes here -->
@@ -19,6 +29,7 @@
                     <field name="sendo_promotion_from_date"/>
                     <field name="sendo_promotion_to_date"/>
                     <field name="sendo_is_promotion" force_save="1"/>
+                    <field name="check_product_sendo"/>
                 </xpath>
 
                 <xpath expr="//field[@name='barcode']" position="after">
@@ -26,6 +37,7 @@
                     <field name="sendo_unit_id"/>
                     <field name="sendo_stock_quantity"/>
                     <field name="sendo_stock_availability" force_save="1"/>
+                    <field name="sendo_url_avatar_image"/>
                 </xpath>
 
                 <xpath expr="//div[@name='weight']" position="after">

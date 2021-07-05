@@ -56,7 +56,7 @@
             <field name="code">model.get_product_sendo_to_product_template()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">hours</field>
-            <field name="numbercall">-1</field>
+            <field name="numbercall">1</field>
             <field name="doall" eval="False"/>
         </record>
 
@@ -89,7 +89,7 @@
             <field name="code">model.get_child_categories_sendo_to_product_template()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">hours</field>
-            <field name="numbercall">-1</field>
+            <field name="numbercall">2</field>
             <field name="doall" eval="False"/>
         </record>
 
