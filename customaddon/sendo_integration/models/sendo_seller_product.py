@@ -119,6 +119,7 @@ class SendoSellerProduct(models.Model):
                         [('sendo_cate_id', '=', product['cate_4_id'])], limit=1)
                     val['categ_id'] = existed_categories_product.id
                     val['sendo_product_id'] = product['id']
+                    val['sendo_category_id'] = existed_categories_product.sendo_cate_id
                     val['type'] = 'product'
                     val['name'] = product['name']
                     val['taxes_id'] = None
@@ -130,6 +131,19 @@ class SendoSellerProduct(models.Model):
                     # val['store_name'] = product['store_name']
                     val['sale_ok'] = True
                     val['purchase_ok'] = False
+                    #   Field Sendo Add To Core
+                    # val['sendo_stock_availability'] = product['stock_availability']
+                    val['sendo_height'] = float(product['height'])
+                    val['weight'] = float(product['weight']/1000)
+                    val['sendo_length'] = float(product['length'])
+                    val['sendo_width'] = float(product['width'])
+                    val['sendo_unit_id'] = str(product['unit_id'])
+                    val['sendo_stock_quantity'] = int(product['stock_quantity']) or 0
+                    val['sendo_promotion_from_date'] = datetime.fromtimestamp(int(product['promotion_from_date_timestamp'])) or None
+                    val['sendo_promotion_to_date'] = datetime.fromtimestamp(int(product['promotion_to_date_timestamp'])) or None
+                    # val['sendo_is_promotion'] = product['is_promotion']
+                    val['sendo_special_price'] = float(product['special_price'])
+                    #
                     val['image_1920'] = base64.b64encode(urlopen(product["image"]).read())
                     existed_seller_product = self.env['product.template'].search([('name', '=', product['name'])], limit=1)
                     #   Check Product In Database

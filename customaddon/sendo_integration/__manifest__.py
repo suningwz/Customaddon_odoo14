@@ -3,7 +3,7 @@
 {
     'name': 'Sendo Integration',
     'version': '1.1',
-    'summary': '',
+    'summary': 'Connection Sendo With Odoo',
     'sequence': 10,
     'description': """
     Sendo Integration with API by Python Http Request
