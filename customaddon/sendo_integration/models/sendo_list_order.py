@@ -149,7 +149,7 @@ class SendoListOrder(models.Model):
 
         url = "https://open.sendo.vn/api/partner/salesorder/search"
         payload = json.dumps({
-            "page_size": 10,
+            "page_size": 100,
             "order_status": None,
             "order_date_from": self.date_from or None,
             "order_date_to": self.date_to or None,

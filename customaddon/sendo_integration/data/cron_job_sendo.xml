@@ -32,7 +32,7 @@
             <field name="code">model.get_child_categories_sendo()</field>
             <field name="interval_number">1</field>
             <field name="interval_type">hours</field>
-            <field name="numbercall">-1</field>
+            <field name="numbercall">2</field>
             <field name="doall" eval="False"/>
         </record>
 
@@ -90,6 +90,17 @@
             <field name="interval_number">1</field>
             <field name="interval_type">hours</field>
             <field name="numbercall">2</field>
+            <field name="doall" eval="False"/>
+        </record>
+
+        <record id="ir_cron_update_each_product_sendo_product_template" model="ir.cron">
+            <field name="name">### Update Each Product Sendo - Product Template</field>
+            <field name="model_id" ref="sendo_integration.model_sendo_seller_product"/>
+            <field name="state">code</field>
+            <field name="code">model.get_each_product_sendo_to_product_template()</field>
+            <field name="interval_number">12</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
             <field name="doall" eval="False"/>
         </record>
 

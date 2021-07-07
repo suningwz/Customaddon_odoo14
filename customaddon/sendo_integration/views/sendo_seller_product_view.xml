@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
                 <form string="ModelTitle">
                     <sheet>
-                        <field name="image" widget="image" class="oe_avatar"/>
+<!--                        <field name="image" widget="image" class="oe_avatar"/>-->
                         <div class="oe_title">
                             <label for="name"/>
                             <h1>
@@ -16,18 +16,18 @@
                             </h1>
                         </div>
                         <group>
-                            <group>
+<!--                            <group>-->
                                 <field name="seller_product_id"/>
 <!--                                <field name="category_for_name"/>-->
-                                <field name="sku"/>
-                                <field name="category_for_id"/>
-                                <field name="categories"/>
-                            </group>
-                            <group>
-                                <field name="stock_quantity"/>
-                                <field name="final_price_min" widget="monetary"/>
-                                <field name="store_name"/>
-                            </group>
+<!--                                <field name="sku"/>-->
+<!--                                <field name="category_for_id"/>-->
+<!--                                <field name="categories"/>-->
+<!--                            </group>-->
+<!--                            <group>-->
+<!--                                <field name="stock_quantity"/>-->
+<!--                                <field name="final_price_min" widget="monetary"/>-->
+<!--                                <field name="store_name"/>-->
+<!--                            </group>-->
                         </group>
                     </sheet>
                 </form>
@@ -41,63 +41,64 @@
                     <field name="name"/>
                     <field name="seller_product_id"/>
 <!--                    <field name="category_for_name"/>-->
-                    <field name="categories"/>
-                    <field name="sku"/>
-                    <field name="stock_quantity"/>
-                    <field name="final_price_min" widget="monetary"/>
-                    <field name="store_name"/>
+<!--                    <field name="categories"/>-->
+<!--                    <field name="sku"/>-->
+<!--                    <field name="stock_quantity"/>-->
+<!--                    <field name="final_price_min" widget="monetary"/>-->
+<!--                    <field name="store_name"/>-->
                 </tree>
             </field>
         </record>
 
-        <record id="sendo_seller_product_template_kanban_view" model="ir.ui.view">
-            <field name="name">sendo.seller.product.kanban</field>
-            <field name="model">sendo.seller.product</field>
-            <field name="arch" type="xml">
-                <kanban sample="1">
-                    <field name="id" invisible="1"/>
-                    <field name="name"/>
-                    <field name="final_price_min"/>
-                    <field name="sku"/>
-                    <field name="stock_quantity"/>
-                    <templates>
-                        <t t-name="kanban-box">
-                            <div t-attf-class="oe_kanban_global_click">
-                                <div class="o_kanban_image">
-                                    <img t-att-src="kanban_image('sendo.seller.product', 'image', record.id.raw_value)"
-                                         class="o_image_64_contain"/>
-                                </div>
-                                <div class="oe_kanban_details">
-                                    <strong class="o_kanban_record_title">
-                                        <field name="name"/>
-                                    </strong>
-                                    <ul>
-                                        <li>
-                                            <h7>
-                                                SKU:
-                                                <field name="sku"/>
-                                            </h7>
-                                        </li>
-                                        <li>
-                                            <h7>
-                                                Price:
-                                                <field name="final_price_min" widget="monetary"/>
-                                            </h7>
-                                        </li>
-                                        <li>
-                                            <h7>
-                                                Available Product:
-                                                <field name="stock_quantity"/>
-                                            </h7>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </t>
-                    </templates>
-                </kanban>
-            </field>
-        </record>
+<!--        <record id="sendo_seller_product_template_kanban_view" model="ir.ui.view">-->
+<!--            <field name="name">sendo.seller.product.kanban</field>-->
+<!--            <field name="model">sendo.seller.product</field>-->
+<!--            <field name="arch" type="xml">-->
+<!--                <kanban sample="1">-->
+<!--                    <field name="id" invisible="1"/>-->
+<!--                    <field name="name"/>-->
+<!--                    <field name="seller_product_id"/>-->
+<!--                    <field name="final_price_min"/>-->
+<!--                    <field name="sku"/>-->
+<!--                    <field name="stock_quantity"/>-->
+<!--                    <templates>-->
+<!--                        <t t-name="kanban-box">-->
+<!--                            <div t-attf-class="oe_kanban_global_click">-->
+<!--                                <div class="o_kanban_image">-->
+<!--                                    <img t-att-src="kanban_image('sendo.seller.product', 'image', record.id.raw_value)"-->
+<!--                                         class="o_image_64_contain"/>-->
+<!--                                </div>-->
+<!--                                <div class="oe_kanban_details">-->
+<!--                                    <strong class="o_kanban_record_title">-->
+<!--                                        <field name="name"/>-->
+<!--                                    </strong>-->
+<!--                                    <ul>-->
+<!--                                        <li>-->
+<!--                                            <h7>-->
+<!--                                                SKU:-->
+<!--                                                <field name="sku"/>-->
+<!--                                            </h7>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <h7>-->
+<!--                                                Price:-->
+<!--                                                <field name="final_price_min" widget="monetary"/>-->
+<!--                                            </h7>-->
+<!--                                        </li>-->
+<!--                                        <li>-->
+<!--                                            <h7>-->
+<!--                                                Available Product:-->
+<!--                                                <field name="stock_quantity"/>-->
+<!--                                            </h7>-->
+<!--                                        </li>-->
+<!--                                    </ul>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </t>-->
+<!--                    </templates>-->
+<!--                </kanban>-->
+<!--            </field>-->
+<!--        </record>-->
 
         <record id="sendo_seller_product_act_window" model="ir.actions.act_window">
             <field name="name">Seller Product</field>

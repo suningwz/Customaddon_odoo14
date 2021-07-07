@@ -13,8 +13,7 @@ class ProductTemplateInheritSendo(models.Model):
 
     sendo_product_id = fields.Integer(stored=True)
     sendo_category_id = fields.Integer()
-    sendo_stock_availability = fields.Boolean(string='Stock Availability', compute='_compute_check_quantity_product',
-                                              default=True, store=True)
+    sendo_stock_availability = fields.Boolean(string='Stock Availability', default=True, store=True)
     sendo_height = fields.Float(string='Height', required=True, default=5)
     sendo_length = fields.Float(string='Length', required=True, default=20)
     sendo_width = fields.Float(string='Width', required=True, default=10)
@@ -31,8 +30,7 @@ class ProductTemplateInheritSendo(models.Model):
     sendo_promotion_from_date = fields.Date(string='Promotion From Date', default=date.today(), store=True)
     sendo_promotion_to_date = fields.Date(string='Promotion To Date', required=True,
                                           default=date.today() + timedelta(days=9000), store=True)
-    sendo_is_promotion = fields.Boolean(string='Promotion', compute='_compute_check_promotion_product', default=True,
-                                        store=True)
+    sendo_is_promotion = fields.Boolean(string='Promotion',  default=True, store=True)
     sendo_special_price = fields.Float(string='Special Price', required=True, default=0.5)
     sendo_url_avatar_image = fields.Char(string='Image URL Product')
     check_product_sendo = fields.Boolean(compute='_compute_check_product_sendo', store=True)
@@ -74,22 +72,6 @@ class ProductTemplateInheritSendo(models.Model):
             if rec.sendo_stock_quantity < 0:
                 raise ValidationError(_("Stock Quantity Product need more than 0."))
 
-    def _compute_check_quantity_product(self):
-        for rec in self:
-            if rec.sendo_stock_quantity > 0:
-                rec.sendo_stock_availability = True
-            else:
-                rec.sendo_stock_availability = False
-
-    # @api.depends('sendo_promotion_from_date', 'sendo_promotion_to_date', 'sendo_is_promotion')
-    def _compute_check_promotion_product(self):
-        for rec in self:
-            if rec.sendo_promotion_from_date:
-                if rec.sendo_promotion_to_date:
-                    if rec.sendo_special_price:
-                        rec.sendo_is_promotion = True
-            else:
-                rec.sendo_is_promotion = False
 
     # @api.model
     # def create(self, vals_list):
@@ -244,7 +226,7 @@ class ProductTemplateInheritSendo(models.Model):
             search_cate_sendo = self.env['product.category'].sudo().search(
                 [('id', '=', self.categ_id.id)], limit=1)
 
-            url = "https://open.sendo.vn/api/partner/product" + self.sendo_product_id +""
+            url = "https://open.sendo.vn/api/partner/product"
 
             payload = {
                 "id": self.sendo_product_id,

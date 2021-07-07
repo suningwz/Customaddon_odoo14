@@ -21,6 +21,7 @@
         'views/sendo_seller_view.xml',
         'views/sale_order_inherit_view.xml',
         'views/product_template_inherit.xml',
+        'views/product_attribute_inherit_view.xml',
         # 'views/assets_backend.xml',
     ],
     'demo': [

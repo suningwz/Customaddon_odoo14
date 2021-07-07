@@ -5,3 +5,5 @@ from . import sendo_list_order
 from . import product_category_inherit
 from . import sale_order_inherit
 from . import product_template_inherit
+from . import product_attribute_inherit
+from . import pro_attr_value_inherit
