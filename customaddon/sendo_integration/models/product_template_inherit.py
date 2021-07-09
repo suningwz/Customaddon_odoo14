@@ -3,9 +3,6 @@ import requests
 import json
 from odoo.exceptions import UserError, ValidationError
 from datetime import *
-from PIL import Image
-import io
-import numpy
 
 
 class ProductTemplateInheritSendo(models.Model):
@@ -194,17 +191,10 @@ class ProductTemplateInheritSendo(models.Model):
 
             response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
 
-            print(response)
-            if response.json()["error"]:
-                print(response.json()["error"])
-                raise ValidationError(_(response.json()["error"]["message"]))
             if response.json()["success"]:
                 print(response.json())
-                existed_seller_product_sendo = self.env['product.template'].search(
-                    [('default_code', '=', self.default_code)], limit=1)
-                existed_seller_product_sendo.sendo_product_id = int(response.json()["result"])
             else:
-                raise ValidationError(_('Create Product Fail in Sync with Sendo.'))
+                raise ValidationError(_(response.json()["error"]["message"]))
 
         except Exception as e:
             print(e)
@@ -331,14 +321,10 @@ class ProductTemplateInheritSendo(models.Model):
 
             response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
 
-            print(response)
-            if response.json()["error"]:
-                print(response.json()["error"])
-                raise ValidationError(_(response.json()["error"]["message"]))
             if response.json()["success"]:
                 print(response.json())
             else:
-                raise ValidationError(_('Update Product Fail in Sync with Sendo.'))
+                raise ValidationError(_(response.json()["error"]["message"]))
 
         except Exception as e:
             print(e)

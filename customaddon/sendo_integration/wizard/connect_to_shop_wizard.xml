@@ -11,6 +11,7 @@
                         <group>
                             <field name="shop_key"/>
                             <field name="secret_key"/>
+                            <field name="date_startup" required="1"/>
                         </group>
                         <footer>
                             <button name="get_token_sendo" string="Connect" type="object" class="btn-primary"/>
