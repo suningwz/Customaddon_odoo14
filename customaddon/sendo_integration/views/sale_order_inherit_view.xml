@@ -7,9 +7,25 @@
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
+                <header>
+                    <field name="sendo_order_status" widget="statusbar"
+                           attrs="{'invisible': [('sendo_order_number', '=', False)]}"/>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,sent,sale"
+                           attrs="{'invisible': [('sendo_order_number', '!=', False)]}"/>
+                </header>
+
+                <xpath expr="//field[@name='state']" position="attributes">
+                    <!-- Add your fields or attributes here -->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='partner_id']" position="before">
+                    <!-- Add your fields or attributes here -->
+                    <field name="sendo_order_number" attrs="{'invisible': [('sendo_order_number', '=', False)]}"/>
+                </xpath>
+
                 <xpath expr="//field[@name='payment_term_id']" position="after">
                     <!-- Add your fields or attributes here -->
-                    <field name="sendo_order_status"/>
                     <field name="sendo_payment_status"/>
                     <field name="sendo_payment_method"/>
                 </xpath>
@@ -24,10 +40,12 @@
             <field name="arch" type="xml">
                 <xpath expr="//filter[@name='my_sale_orders_filter']" position="before">
                     <!-- Add your fields or attributes here -->
-                    <filter name="sendo_order_number" string="Sendo Order" domain="[('sendo_order_number', '!=', False)]"/>
+                    <filter name="sendo_order_number" string="### Sendo Order"
+                            domain="[('sendo_order_number', '!=', False)]"/>
                 </xpath>
             </field>
         </record>
+
 
     </data>
 </odoo>

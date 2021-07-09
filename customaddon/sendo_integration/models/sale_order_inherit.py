@@ -37,5 +37,3 @@ class ApiSendoSaleOrderInherit(models.Model):
         ('2', 'Thanh toán trực tuyến'),
         ('4', 'Thanh toán kết hợp'),
         ('5', 'Thanh toán trả sau')], string='Payment Method')
-
-    # product_in_order_sale_order = fields.One2many('sale.order.line', 'product_in_list_order_sale_order')

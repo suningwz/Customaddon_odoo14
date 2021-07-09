@@ -35,12 +35,12 @@ class ProductTemplateInheritSendo(models.Model):
     sendo_url_avatar_image = fields.Char(string='Image URL Product')
     check_product_sendo = fields.Boolean(compute='_compute_check_product_sendo', store=True)
 
-    def _compute_check_product_sendo(self):
-        for rec in self:
-            if rec.sendo_product_id:
-                rec.check_product_sendo = True
-            else:
-                rec.check_product_sendo = False
+    # def _compute_check_product_sendo(self):
+    #     for rec in self:
+    #         if rec.sendo_product_id:
+    #             rec.check_product_sendo = True
+    #         else:
+    #             rec.check_product_sendo = False
 
     @api.constrains('sendo_special_price', 'list_price')
     def check_sendo_special_price(self):
@@ -71,15 +71,6 @@ class ProductTemplateInheritSendo(models.Model):
         for rec in self:
             if rec.sendo_stock_quantity < 0:
                 raise ValidationError(_("Stock Quantity Product need more than 0."))
-
-
-    # @api.model
-    # def create(self, vals_list):
-    #     print()
-    #     res = super(ProductTemplateInheritSendo, self).create(vals_list)
-    #     # Call API Create Or Update Product In Sendo
-    #     self.create_or_update_product_sendo()
-    #     return res
 
     def create_product_sendo(self):
         try:
@@ -217,7 +208,6 @@ class ProductTemplateInheritSendo(models.Model):
 
         except Exception as e:
             print(e)
-
 
     def update_product_sendo(self):
         try:
