@@ -193,11 +193,13 @@ class ProductTemplateInheritSendo(models.Model):
 
             if response.json()["success"]:
                 print(response.json())
+                existed_seller_product_sendo = self.env['product.template'].search(
+                    [('default_code', '=', self.default_code)], limit=1)
+                existed_seller_product_sendo.sendo_product_id = int(response.json()["result"])
             else:
-                raise ValidationError(_(response.json()["error"]["message"]))
-
+                raise UserError(_(response.json()["error"]["message"]))
         except Exception as e:
-            print(e)
+            raise UserError(str(e))
 
     def update_product_sendo(self):
         try:
@@ -320,11 +322,9 @@ class ProductTemplateInheritSendo(models.Model):
             }
 
             response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
-
             if response.json()["success"]:
                 print(response.json())
             else:
-                raise ValidationError(_(response.json()["error"]["message"]))
-
+                raise UserError(_(response.json()["error"]["message"]))
         except Exception as e:
-            print(e)
+            raise UserError(str(e))

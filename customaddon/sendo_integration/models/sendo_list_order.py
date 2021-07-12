@@ -62,6 +62,7 @@ class SendoListOrder(models.Model):
                     val_customer['type'] = 'contact'
                     val_customer['street'] = val_order['receiver_full_address']
                     val_customer['comment'] = 'Sync By Call Sendo API'
+                    val_customer['chech_sendo_customer'] = True
 
                     #   Check Customer
                     existed_customer = self.env['res.partner'].sudo().search(
@@ -75,6 +76,7 @@ class SendoListOrder(models.Model):
 
                         # Get Information Order
                         val['sendo_order_number'] = str(val_order['order_number'])
+                        val['name'] = str(val_order['order_number'])
                         val['sendo_order_status'] = str(val_order['order_status'])
                         val['sendo_payment_status'] = str(val_order['payment_status'])
                         val['sendo_payment_method'] = str(val_order['payment_method'])
@@ -115,6 +117,8 @@ class SendoListOrder(models.Model):
                         val['amount_untaxed'] = val_order['sub_total']
                         val['date_order'] = datetime.fromtimestamp(val_order['order_date_time_stamp'])
                         val['partner_id'] = existed_customer.id
+                        val_customer['chech_sendo_customer'] = True
+
                         #   Check Order In Database
                         existed_order = self.env['sale.order'].sudo().search(
                             [('sendo_order_number', '=', str(val_order['order_number']))], limit=1)

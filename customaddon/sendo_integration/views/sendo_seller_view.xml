@@ -11,7 +11,7 @@
                             <field name="shop_key"/>
                             <field name="secret_key"/>
                             <field name="token_connection"/>
-                            <field name="date_startup"/>
+                            <field name="date_startup" readonly="1"/>
                             <field name="sendo_order_date_from" invisible="1"/>
                             <field name="sendo_order_date_to" invisible="1"/>
                         </group>
@@ -28,7 +28,7 @@
                     <field name="shop_key"/>
                     <field name="secret_key"/>
                     <field name="token_connection"/>
-                    <field name="date_startup"/>
+                    <field name="date_startup" readonly="1"/>
                 </tree>
             </field>
         </record>

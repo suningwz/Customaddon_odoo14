@@ -20,6 +20,7 @@
         'views/sale_order_inherit_view.xml',
         'views/product_template_inherit.xml',
         'views/product_product_inherit_view.xml',
+        'views/res_partner_inherit_view_form.xml',
         # 'views/assets_backend.xml',
     ],
     'demo': [
