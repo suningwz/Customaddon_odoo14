@@ -30,7 +30,7 @@ class ProductTemplateInheritSendo(models.Model):
     sendo_is_promotion = fields.Boolean(string='Promotion',  default=True, store=True)
     sendo_special_price = fields.Float(string='Special Price', required=True, default=0.5)
     sendo_url_avatar_image = fields.Char(string='Image URL Product')
-    check_product_sendo = fields.Boolean(compute='_compute_check_product_sendo', store=True)
+    check_product_sendo = fields.Boolean(store=True)
 
     # def _compute_check_product_sendo(self):
     #     for rec in self:
