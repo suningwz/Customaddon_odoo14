@@ -1,3 +1,3 @@
-from . import tiki_categories
 from . import tiki_seller
-from . import tiki_seller_product
+from . import product_category_inherit
+from . import product_template_inherit

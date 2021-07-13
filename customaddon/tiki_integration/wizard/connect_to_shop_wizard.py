@@ -1,6 +1,5 @@
 import requests
 from odoo import fields, models, api
-# from fake_useragent import UserAgent
 from odoo.http import request
 
 
@@ -13,6 +12,15 @@ class SellerConnectWizard(models.TransientModel):
         ('chrome', 'Chrome'),
         ('edge', 'Edge'),
         ('firefox', 'Firefox')], string='User Agent')
+
+    def default_get(self, fields_list):
+        res = super(SellerConnectWizard, self).default_get(fields_list)
+        current_seller = self.env['tiki.seller'].sudo().search([])[0]
+        if len(current_seller) < 1:
+            pass
+        else:
+            res['secret'] = current_seller.secret
+        return res
 
     def init_connect_tiki_seller_submit(self):
         if self.user_agent == 'chrome':
@@ -31,11 +39,6 @@ class SellerConnectWizard(models.TransientModel):
         else:
             existed_secret.write(val)
 
-
-        # self.env['tiki.seller'].sudo().create({
-        #     'secret': self.secret,
-        #     'user_agent': user_agent_val,
-        # })
 
 
 

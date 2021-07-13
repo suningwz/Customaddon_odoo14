@@ -28,5 +28,14 @@
             <field name="view_id" ref="tiki_seller_connect_wizard_form_view"/>
             <field name="target">new</field>
         </record>
+
+        <menuitem
+                name="### Tiki Connection API"
+                id="connection_tiki_api"
+                parent="sale.menu_sale_config"
+                action="tiki_seller_connect_act_window"
+                sequence="31"
+                />
+
     </data>
 </odoo>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
         <record id="tiki_seller_form_view" model="ir.ui.view">
             <field name="name">tiki_seller.form</field>
             <field name="model">tiki.seller</field>
@@ -33,6 +34,7 @@
                 </form>
             </field>
         </record>
+
         <record id="tiki_seller_tree_view" model="ir.ui.view">
             <field name="name">tiki_seller.tree</field>
             <field name="model">tiki.seller</field>
@@ -47,6 +49,7 @@
                 </tree>
             </field>
         </record>
+
         <record id="tiki_seller_act_window" model="ir.actions.act_window">
             <field name="name">Tiki Seller</field>
             <field name="type">ir.actions.act_window</field>
@@ -58,10 +61,14 @@
                 </p>
             </field>
         </record>
-         <menuitem
-                name="Tiki Seller"
+
+        <menuitem
+                name="### Tiki Seller"
                 id="tiki_seller_menu"
-                parent = "tiki_seller_product_menu"
-                action="tiki_seller_act_window"/>
+                parent="sale.menu_sale_config"
+                action="tiki_seller_act_window"
+                sequence="30"
+                />
+
     </data>
 </odoo>
