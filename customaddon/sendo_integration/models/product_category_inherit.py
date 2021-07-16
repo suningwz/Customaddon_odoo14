@@ -15,20 +15,20 @@ class ApiSendoProductCategoryInherit(models.Model):
 
     #       Add To Module Sale
     def get_categories_sendo_to_product_template(self):
-        current_seller = self.env['sendo.seller'].sudo().search([])[0]
+        try:
+            current_seller = self.env['sendo.seller'].sudo().search([])[0]
 
-        url = "https://open.sendo.vn/api/partner/category/0"
+            url = "https://open.sendo.vn/api/partner/category/0"
 
-        payload = {}
-        headers = {
-            'Authorization': 'Bearer ' + current_seller.token_connection
-        }
+            payload = {}
+            headers = {
+                'Authorization': 'Bearer ' + current_seller.token_connection
+            }
 
-        response = requests.request("GET", url, headers=headers, data=payload)
-        if response.json()["exp"]:
-            raise ValidationError(_('My Token is expired, Please connect Sendo API.'))
-        else:
-            if response.json()["success"]:
+            response = requests.request("GET", url, headers=headers, data=payload)
+            if "exp" in response.json():
+                raise ValidationError(_('My Token is expired, Please connect Sendo API.'))
+            elif response.json()["success"]:
                 result_category = response.json()
                 categories = result_category["result"]
                 val = {}
@@ -41,9 +41,11 @@ class ApiSendoProductCategoryInherit(models.Model):
                                 val['sendo_parent_id'] = cate['parent_id']
                                 val['sendo_level'] = cate['level']
                                 val['sendo_has_called'] = False
+                                val['parent_id'] = None
                         except Exception as e:
                             print(e)
-                        existed_category = self.env['product.category'].search([('sendo_cate_id', '=', cate['id'])], limit=1)
+                        existed_category = self.env['product.category'].search([('sendo_cate_id', '=', cate['id'])],
+                                                                               limit=1)
                         if len(existed_category) < 1:
                             self.env['product.category'].create(val)
                         else:
@@ -51,25 +53,29 @@ class ApiSendoProductCategoryInherit(models.Model):
             else:
                 raise ValidationError(_('Sync Category From Sendo Is Fail.'))
 
+        except Exception as e:
+            raise ValidationError(str(e))
+
+
     #       Add To Module Sale
     def get_child_categories_sendo_to_product_template(self):
-        current_seller = self.env['sendo.seller'].sudo().search([])[0]
-        has_not_called_api = self.env['product.category'].sudo().search(
-            [('sendo_has_called', '=', False), ('sendo_level', '!=', 4)])
-        for a in has_not_called_api:
-            url = 'https://open.sendo.vn/api/partner/category/' + str(a['sendo_cate_id'])
+        try:
+            current_seller = self.env['sendo.seller'].sudo().search([])[0]
+            has_not_called_api = self.env['product.category'].sudo().search(
+                [('sendo_has_called', '=', False), ('sendo_level', '!=', 4)])
+            for a in has_not_called_api:
+                url = 'https://open.sendo.vn/api/partner/category/' + str(a['sendo_cate_id'])
 
-            payload = {}
-            headers = {
-                'Authorization': 'Bearer ' + current_seller.token_connection
-            }
+                payload = {}
+                headers = {
+                    'Authorization': 'Bearer ' + current_seller.token_connection
+                }
 
-            response_raw = requests.request("GET", url, headers=headers, data=payload)
-            if response_raw.json()["exp"]:
-                raise ValidationError(_('My Token is expired, Please connect Sendo API.'))
-            else:
-                if response_raw.json()["success"]:
-                    result_child_cate = response_raw.json()
+                response = requests.request("GET", url, headers=headers, data=payload)
+                if "exp" in response.json():
+                    raise ValidationError(_('My Token is expired, Please connect Sendo API.'))
+                elif response.json()["success"]:
+                    result_child_cate = response.json()
                     response = result_child_cate["result"]
                     val = {}
                     if response:
@@ -86,4 +92,7 @@ class ApiSendoProductCategoryInherit(models.Model):
                             except Exception as e:
                                 print(e)
                     a.sendo_has_called = True
-                raise ValidationError(_('Sync Category From Sendo Is Fail.'))
+                else:
+                    raise ValidationError(_('Sync Category From Sendo Is Fail.'))
+        except Exception as e:
+            raise ValidationError(str(e))

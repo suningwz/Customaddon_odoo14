@@ -24,8 +24,8 @@
 
     # always loaded
     'data': [
-        'security/ir.model.access.csv',
         'security/security_data.xml',
+        'security/ir.model.access.csv',
         'views/sale_order_inherit_view.xml',
         'wizard/create_plan_sale_wizard_view.xml',
 

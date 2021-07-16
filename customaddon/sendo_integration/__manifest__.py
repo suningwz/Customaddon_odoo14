@@ -16,10 +16,12 @@
         'data/cron_job_sendo.xml',
         'views/sendo_seller_product_view.xml',
         'views/sendo_seller_view.xml',
+        'wizard/sendo_cancel_reason_wizard_view.xml',
         'views/sale_order_inherit_view.xml',
         'views/product_template_inherit.xml',
         'views/product_product_inherit_view.xml',
         'views/res_partner_inherit_view_form.xml',
+        'views/sendo_cancel_reason_view.xml',
         # 'views/assets_backend.xml',
     ],
     'demo': [

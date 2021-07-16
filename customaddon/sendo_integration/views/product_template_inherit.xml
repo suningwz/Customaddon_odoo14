@@ -19,12 +19,27 @@
                             type="object" string="Update Sendo Product"
                             confirm="Are you sure with your choice?"
                             class="btn-primary"
-                            attrs="{'invisible':[('check_product_sendo', '!=', True)]}"
+                            attrs="{'invisible':[('check_product_sendo', '=', False)]}"
+                    />
+
+                    <button id="button_update_stock_price_product_sendo" name="update_price_stock_product_sendo"
+                            type="object" string="Update Stock Or Price Product"
+                            confirm="Are you sure with your choice?"
+                            class="btn-primary"
+                            attrs="{'invisible':[('check_product_sendo', '!=', True), ('sendo_product_id', '!=', True)]}"
+                    />
+
+                    <button id="button_update_promotion_product_sendo" name="update_promotion_product_sendo"
+                            type="object" string="Update Promotion Product"
+                            confirm="Are you sure with your choice?"
+                            class="btn-primary"
+                            attrs="{'invisible':[('check_product_sendo', '!=', True), ('sendo_product_id', '!=', True)]}"
                     />
                 </header>
                 <xpath expr="//field[@name='company_id']" position="after">
                     <!-- Add your fields or attributes here -->
-                    <field name="check_product_sendo"/>
+                    <field name="sendo_product_id" invisible="1"/>
+                    <field name="check_product_sendo" readonly="1"/>
                     <field name="sendo_is_promotion"/>
                     <field name="sendo_special_price" widget='monetary' options="{'currency_field': 'currency_id'}"
                            attrs="{'invisible':[('sendo_is_promotion', '!=', True)]}"/>

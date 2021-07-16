@@ -6,7 +6,7 @@
             <field name="name">sendo.seller.product.form</field>
             <field name="model">sendo.seller.product</field>
             <field name="arch" type="xml">
-                <form string="ModelTitle">
+                <form string="ModelTitle" create="false">
                     <sheet>
                         <div class="oe_title">
                             <label for="name"/>
@@ -26,7 +26,7 @@
             <field name="name">sendo.seller.product.tree</field>
             <field name="model">sendo.seller.product</field>
             <field name="arch" type="xml">
-                <tree string="Sendo Product" sample="1">
+                <tree string="Sendo Product" sample="1" create="false">
                     <field name="name"/>
                     <field name="seller_product_id"/>
                 </tree>

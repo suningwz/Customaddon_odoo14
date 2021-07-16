@@ -27,17 +27,10 @@ class ProductTemplateInheritSendo(models.Model):
     sendo_promotion_from_date = fields.Date(string='Promotion From Date', default=date.today(), store=True)
     sendo_promotion_to_date = fields.Date(string='Promotion To Date', required=True,
                                           default=date.today() + timedelta(days=9000), store=True)
-    sendo_is_promotion = fields.Boolean(string='Promotion',  default=True, store=True)
+    sendo_is_promotion = fields.Boolean(string='Promotion', default=True, store=True)
     sendo_special_price = fields.Float(string='Special Price', required=True, default=0.5)
     sendo_url_avatar_image = fields.Char(string='Image URL Product')
     check_product_sendo = fields.Boolean(store=True)
-
-    # def _compute_check_product_sendo(self):
-    #     for rec in self:
-    #         if rec.sendo_product_id:
-    #             rec.check_product_sendo = True
-    #         else:
-    #             rec.check_product_sendo = False
 
     @api.constrains('sendo_special_price', 'list_price')
     def check_sendo_special_price(self):
@@ -190,16 +183,18 @@ class ProductTemplateInheritSendo(models.Model):
             }
 
             response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
-
-            if response.json()["success"]:
+            if "exp" in response.json():
+                raise ValidationError(_('My Token is expired, Please connect Sendo API.'))
+            elif response.json()["success"]:
                 print(response.json())
                 existed_seller_product_sendo = self.env['product.template'].search(
                     [('default_code', '=', self.default_code)], limit=1)
+                existed_seller_product_sendo.check_product_sendo = True
                 existed_seller_product_sendo.sendo_product_id = int(response.json()["result"])
             else:
-                raise UserError(_(response.json()["error"]["message"]))
+                raise ValidationError(_(response.json()["error"]["message"]))
         except Exception as e:
-            raise UserError(str(e))
+            raise ValidationError(str(e))
 
     def update_product_sendo(self):
         try:
@@ -322,9 +317,86 @@ class ProductTemplateInheritSendo(models.Model):
             }
 
             response = requests.request("POST", url, headers=headers, data=json.dumps(payload))
-            if response.json()["success"]:
+
+            if "exp" in response.json():
+                raise ValidationError(_('My Token is expired, Please connect Sendo API.'))
+            elif response.json()["success"]:
                 print(response.json())
             else:
-                raise UserError(_(response.json()["error"]["message"]))
+                raise ValidationError(_(response.json()["error"]["message"]))
         except Exception as e:
-            raise UserError(str(e))
+            raise ValidationError(str(e))
+
+    def update_price_stock_product_sendo(self):
+
+        current_seller = self.env['sendo.seller'].sudo().search([])[0]
+        try:
+            url = "https://open.sendo.vn/api/partner/product/config/variant-price"
+
+            payload = json.dumps([
+                {
+                    "product_id": int(self.sendo_product_id),
+                    "price": float(self.list_price),
+                    "stock_quantity": int(self.sendo_stock_quantity),
+                    "is_config_variant": False,
+                    "stock_availability": True,
+                    "special_price": None,
+                    "promotion_start_date": None,
+                    "promotion_end_date": None,
+                    "variants": []
+                }
+            ])
+            headers = {
+                'content-type': 'application/json',
+                'Authorization': 'Bearer ' + current_seller.token_connection
+            }
+
+            response = requests.request("PUT", url, headers=headers, data=payload)
+
+            if "exp" in response.json():
+                raise ValidationError(_('My Token is expired, Please connect Sendo API.'))
+            elif response.json()["success"]:
+                self.sendo_is_promotion = False
+            else:
+                raise ValidationError(_(response.json()['error']['message']))
+        except Exception as e:
+            raise ValidationError(str(e))
+
+    def update_promotion_product_sendo(self):
+
+        current_seller = self.env['sendo.seller'].sudo().search([])[0]
+        try:
+            url = "https://open.sendo.vn/api/partner/product/config/variant-price"
+
+            payload = json.dumps([
+                {
+                    "product_id": int(self.sendo_product_id),
+                    "price": float(self.list_price),
+                    "stock_quantity": int(self.sendo_stock_quantity),
+                    "is_config_variant": False,
+                    "stock_availability": True,
+                    "special_price": self.sendo_special_price,
+                    "promotion_start_date": self.sendo_promotion_from_date.strftime("%Y-%m-%d"),
+                    "promotion_end_date": self.sendo_promotion_to_date.strftime("%Y-%m-%d"),
+                    "variants": []
+                }
+            ])
+            headers = {
+                'content-type': 'application/json',
+                'Authorization': 'Bearer ' + current_seller.token_connection
+            }
+
+            response = requests.request("PUT", url, headers=headers, data=payload)
+
+            if "exp" in response.json():
+                raise ValidationError(_('My Token is expired, Please connect Sendo API.'))
+            elif response.json()["success"]:
+                if "error_list" in response.json()["result"]:
+                    if response.json()["result"]["error_list"]:
+                        raise ValidationError(_(response.json()['result']['error_list'][0]['message']))
+                    else:
+                        pass
+                else:
+                    pass
+        except Exception as e:
+            raise ValidationError(str(e))
