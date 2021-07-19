@@ -12,7 +12,10 @@ class SendoCancelReasonWizard(models.TransientModel):
 
     sendo_cancel_reason_wizard_id = fields.Many2one('sendo.cancel.reason', string='Cancel Reason')
 
-    sendo_order_status = fields.Selection(related='sale_order_sendo_cancel_reason_id.sendo_order_status')
+    sendo_order_status = fields.Selection([
+        ('3', 'Đang xử lý'),
+        ('7', 'Đã giao hàng'),
+        ('13', 'Hủy')], string='Sendo Order Status')
     sale_order_sendo_cancel_reason_id = fields.Many2one('sale.order', string='Quotation ID')
 
     #   Get Sendo Cancel Reason Order
@@ -27,7 +30,7 @@ class SendoCancelReasonWizard(models.TransientModel):
                 payload = json.dumps({
                     "order_number": str(self.sale_order_sendo_cancel_reason_id.sendo_order_number),
                     "order_status": int(self.sendo_order_status),
-                    "cancel_order_reason": str(self.sendo_cancel_reason_wizard_id.sendo_cancel_code) or None
+                    "cancel_order_reason": str(self.sendo_cancel_reason_wizard_id.sendo_cancel_code)
                 })
                 headers = {
                     'cache-control': 'no-cache',
@@ -45,6 +48,7 @@ class SendoCancelReasonWizard(models.TransientModel):
                         [('sendo_cancel_code', '=', self.sendo_cancel_reason_wizard_id.sendo_cancel_code)], limit=1)
                     val = {
                         'sendo_cancel_name': str(existed_name_sendo_cancel_reason.sendo_cancel_name),
+                        'sendo_order_status': str(self.sendo_order_status)
                     }
                     existed_sendo_cancel_reason = self.env['sale.order'].search(
                         [('sendo_order_number', '=', str(self.sale_order_sendo_cancel_reason_id.sendo_order_number))],
@@ -79,7 +83,16 @@ class SendoCancelReasonWizard(models.TransientModel):
                 if "exp" in response.json():
                     raise ValidationError(_('My Token is expired, Please connect Sendo API.'))
                 elif update_order_status["success"]:
-                    pass
+                    val = {
+                        'sendo_order_status': str(self.sendo_order_status)
+                    }
+                    existed_sendo_cancel_reason = self.env['sale.order'].search(
+                        [('sendo_order_number', '=', str(self.sale_order_sendo_cancel_reason_id.sendo_order_number))],
+                        limit=1)
+                    if len(existed_sendo_cancel_reason) < 1:
+                        self.env['sale.order'].create(val)
+                    else:
+                        existed_sendo_cancel_reason.write(val)
                 else:
                     raise ValidationError(_(update_order_status['error']['message']))
             except Exception as e:

@@ -136,14 +136,7 @@ class SendoSellerProduct(models.Model):
                         else:
                             val['sendo_is_promotion'] = False
 
-                        # #   Add Variant For Product
-                        # attrib_line_vals = []
-                        # if product['is_config_variant'] and product['attributes']:
-                        #     attrib_line_vals = self.prepare_attribute_vals(product)
-                        # if len(attrib_line_vals) > 0:
-                        #     val['attribute_line_ids'] = attrib_line_vals
-
-                        # search theo sendo id
+                        # Search theo sendo id
                         existed_seller_product = self.env['product.template'].search(
                             [('sendo_product_id', '=', product['id'])], limit=1)
 

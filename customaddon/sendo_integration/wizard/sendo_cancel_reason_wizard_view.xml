@@ -9,7 +9,7 @@
                 <form string="Update Sendo Order Status">
                     <group class="oe_title">
                         <field name="sale_order_sendo_cancel_reason_id" readonly="1"/>
-                        <field name="sendo_order_status" readonly="1"/>
+                        <field name="sendo_order_status"/>
                         <field name="sendo_cancel_reason_wizard_id"
                                options="{'no_create_edit': True, 'no_quick_create': True}"
                                attrs="{'invisible': [('sendo_order_status', '!=', '13')]}"/>

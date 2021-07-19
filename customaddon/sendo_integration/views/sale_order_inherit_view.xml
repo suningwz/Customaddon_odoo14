@@ -22,7 +22,7 @@
                     <field name="sendo_order_number" invisible="0"/>
                     <field name="sendo_payment_status"/>
                     <field name="sendo_payment_method"/>
-                    <field name="sendo_cancel_name" attrs="{'invisible': [('sendo_order_status', '=', '13')]}"/>
+                    <field name="sendo_cancel_name" attrs="{'invisible': [('sendo_order_status', '!=', '13')]}"/>
                 </xpath>
             </field>
         </record>

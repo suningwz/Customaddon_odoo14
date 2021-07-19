@@ -337,7 +337,7 @@ class ProductTemplateInheritSendo(models.Model):
                 {
                     "product_id": int(self.sendo_product_id),
                     "price": float(self.list_price),
-                    "stock_quantity": int(self.sendo_stock_quantity),
+                    "stock_quantity": int(self.qty_available),
                     "is_config_variant": False,
                     "stock_availability": True,
                     "special_price": None,
@@ -357,6 +357,7 @@ class ProductTemplateInheritSendo(models.Model):
                 raise ValidationError(_('My Token is expired, Please connect Sendo API.'))
             elif response.json()["success"]:
                 self.sendo_is_promotion = False
+                self.sendo_stock_quantity = self.qty_available
             else:
                 raise ValidationError(_(response.json()['error']['message']))
         except Exception as e:
@@ -372,7 +373,7 @@ class ProductTemplateInheritSendo(models.Model):
                 {
                     "product_id": int(self.sendo_product_id),
                     "price": float(self.list_price),
-                    "stock_quantity": int(self.sendo_stock_quantity),
+                    "stock_quantity": int(self.qty_available),
                     "is_config_variant": False,
                     "stock_availability": True,
                     "special_price": self.sendo_special_price,
@@ -395,7 +396,7 @@ class ProductTemplateInheritSendo(models.Model):
                     if response.json()["result"]["error_list"]:
                         raise ValidationError(_(response.json()['result']['error_list'][0]['message']))
                     else:
-                        pass
+                        self.sendo_stock_quantity = self.qty_available
                 else:
                     pass
         except Exception as e:

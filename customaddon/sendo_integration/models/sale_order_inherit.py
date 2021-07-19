@@ -204,7 +204,7 @@ class ApiSendoSaleOrderInherit(models.Model):
             raise ValidationError(str(e))
 
 
-class SendoSellerProduct(models.Model):
+class SendoCancelReason(models.Model):
     _name = "sendo.cancel.reason"
     _description = "Sendo Cancel Reason Queue"
     _rec_name = 'sendo_cancel_name'
