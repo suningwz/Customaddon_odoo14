@@ -6,9 +6,10 @@
     'sequence': -100,
     'description': """Hospital Management Software""",
     'category': 'Productivity',
+    'author': 'Mahacarviet Ft Odoo Mates',
     'website': 'https://www.odoomates.tech',
     'license': 'LGPL-3',
-    'depends': ['base', 'sale', 'mail', ],
+    'depends': ['base', 'sale', 'mail', 'hr', 'report_xlsx' ],
     'data': [
         'security/ir.model.access.csv',
         'data/data.xml',
@@ -19,8 +20,10 @@
         'views/patient_gender.xml',
         'views/appointment.xml',
         'views/doctor_view.xml',
-        # 'views/sale_order_inherit_view.xml',
-
+        'views/sale_order_inherit_view.xml',
+        'reports/patient_card.xml',
+        'reports/patient_details_template.xml',
+        'reports/report.xml',
 
     ],
     'demo': [],
