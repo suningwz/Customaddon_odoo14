@@ -10,9 +10,16 @@ class CreateAppointmentWizard(models.TransientModel):
     date_appointment = fields.Date(string='Date', required=True)
     doctor_id = fields.Many2one('hospital.doctor', string='Doctor')
 
+    @api.model
+    def default_get(self, fields):
+        res = super(CreateAppointmentWizard, self).default_get(fields)
+        if self._context.get('active_id'):
+            res['patient_id'] = self._context.get('active_id')
+        return res
+
     def action_create_appointment(self):
         vals = {
-            # 'doctor_id': 1,
+            'doctor_id': 1,
             'patient_id': self.patient_id.id,
             'date_appointment': self.date_appointment,
             'state': 'draft'

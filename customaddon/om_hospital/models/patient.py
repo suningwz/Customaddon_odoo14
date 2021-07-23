@@ -94,5 +94,6 @@ class HospitalPatient(models.Model):
             'res_model': 'hospital.appointment',
             'view_mode': 'tree,form',
             'domain': [('patient_id', '=', self.id)],
+            'context': {'default_patient_id': self.id},
             'target': 'current'
         }
