@@ -86,3 +86,13 @@ class HospitalPatient(models.Model):
     #         name = '[' + record.reference + ']' + ' ' + record.name
     #         result.append((record.id, name))
     #     return result
+
+    def action_open_appointments(self):
+        return {
+            'name': 'Appointments',
+            'type': 'ir.actions.act_window',
+            'res_model': 'hospital.appointment',
+            'view_mode': 'tree,form',
+            'domain': [('patient_id', '=', self.id)],
+            'target': 'current'
+        }

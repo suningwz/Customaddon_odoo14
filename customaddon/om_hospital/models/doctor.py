@@ -17,6 +17,8 @@ class HospitalDoctor(models.Model):
         ('other', 'Other'),
     ], required=True, default='male', tracking=True)
     image = fields.Binary(string='Patient Image')
+    appointment_count = fields.Integer(compute='_compute_appointment_count')
+    active = fields.Boolean(string='Active', default=True)
 
     @api.model
     def create(self, vals):
@@ -33,3 +35,7 @@ class HospitalDoctor(models.Model):
         # default['note'] = ''
         return super(HospitalDoctor, self).copy(default)
 
+    def _compute_appointment_count(self):
+        for rec in self:
+            temp_count = rec.env['hospital.appointment'].search_count([('doctor_id', '=', rec.id)])
+            rec.appointment_count = temp_count
