@@ -24,6 +24,7 @@
 
         <record id="action_create_appointment_wizard" model="ir.actions.act_window">
             <field name="name">Create Appointment</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="res_model">create.appointment.wizard</field>
             <field name="view_mode">form</field>
             <field name="view_id" ref="create_appointment_wizard_view"/>

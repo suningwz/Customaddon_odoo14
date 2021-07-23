@@ -9,7 +9,7 @@ class CalculateRouteWizard(models.Model):
 
     tomtom_starting_point = fields.Char(string='Starting Point')
     tomtom_destination = fields.Char(string='Destination')
-    tomtom_distance = fields.Char(string='Distance')
+    tomtom_distance = fields.Char(string='Distance  (m)')
     tomtom_instructions_type = fields.Text(string='Instructions Type')
     tomtom_section_type = fields.Selection([
         ('carTrain', 'Car Train'),

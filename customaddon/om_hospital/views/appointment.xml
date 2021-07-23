@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+
+        <record id="action_confirm_appointment" model="ir.actions.server">
+            <field name="name">Confirm Appointment</field>
+            <field name="type">ir.actions.server</field>
+            <field name="model_id" ref="om_hospital.model_hospital_appointment"/>
+            <field name="binding_model_id" ref="om_hospital.model_hospital_appointment" />
+            <field name="state">code</field>
+            <field name="code">records.action_confirm()</field>
+        </record>
+
         <record id="appointment_view_tree" model="ir.ui.view">
             <field name="name">hospital.appointment.tree</field>
             <field name="model">hospital.appointment</field>
@@ -35,6 +45,7 @@
                                 states="draft,confirm,done" class="btn-primary"/>
                         <button id="button_draft" name="action_draft" type="object" string="Set To Draft"
                                 states="cancel" class="btn-primary"/>
+                        <button name="action_url" type="object" string="Open URL" class="btn-primary"/>
                         <field name="state" widget="statusbar" options="{'clickable': '1'}"
                                statusbar_visible="draft,confirm,done"/>
                     </header>

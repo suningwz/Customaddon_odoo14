@@ -3,8 +3,7 @@
     'name': "Tomtom Map Integration Odoo",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        Calculate Route in Odoo""",
     'sequence': 10,
     'description': """
         Tomtom Map with API by Python Http Request
