@@ -36,6 +36,9 @@
             <field name="arch" type="xml">
                 <form>
                     <sheet>
+                        <widget name="web_ribbon" title="Archived" bg_color="bg-danger"
+                                attrs="{'invisible': [('active', '=', True)]}"/>
+
                         <div class="oe_button_box" name="button_box">
                             <button name="%(om_hospital.action_open_appointments)d" type="action"
                                     class="oe_stat_button" icon="fa-bars">

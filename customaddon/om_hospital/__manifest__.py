@@ -21,6 +21,7 @@
         'views/appointment.xml',
         'views/doctor_view.xml',
         'views/sale_order_inherit_view.xml',
+        # 'views/partner_inherit.xml',
         'reports/patient_card.xml',
         'reports/patient_details_template.xml',
         'reports/report.xml',

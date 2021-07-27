@@ -1,0 +1,34 @@
+<odoo>
+    <data>
+<!--        <record id="menu_portal_user_root" model="website.menu">-->
+<!--            <field name="name">Chức năng thêm</field>-->
+<!--            &lt;!&ndash;            <field name="url">/portal_user/create_attendances</field>&ndash;&gt;-->
+<!--            <field name="parent_id" ref="website.main_menu"/>-->
+<!--            <field name="sequence" type="int">70</field>-->
+<!--        </record>-->
+        <record id="menu_portal_user_create_attendances" model="website.menu">
+            <field name="name">Chấm công</field>
+            <field name="url">/portal_user/create_attendances</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">10</field>
+        </record>
+        <record id="menu_portal_user_create_leaves" model="website.menu">
+            <field name="name">Xin nghỉ</field>
+            <field name="url">/portal_user/create_leaves</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">15</field>
+        </record>
+        <record id="menu_portal_user_create_over_time" model="website.menu">
+            <field name="name">Đăng ký tăng ca</field>
+            <field name="url">/portal_user/create_over_time</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">20</field>
+        </record>
+        <record id="menu_portal_user_view_payroll" model="website.menu">
+            <field name="name">Xem phiếu lương hàng tháng</field>
+            <field name="url">/portal_user/set_payroll_time</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">25</field>
+        </record>
+    </data>
+</odoo>

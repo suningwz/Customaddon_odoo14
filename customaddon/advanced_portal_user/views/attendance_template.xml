@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_user_create_attendances" name="Create Leaves">
+        <t t-call="website.layout">
+            <h3 style="margin-top: 50px; text-align:center"> Hi there, The last time you check in at : <t t-esc="current_att_check_in"/></h3>
+            <form style="margin: 200px;" action="/portal_user/save_attendances" method="post">
+                <button style="display: block; margin: auto; " type="submit"
+                        class="btn btn-success">Create Attendance</button>
+<!--                <button type="submit"-->
+<!--                        class="btn btn-primary"-->
+<!--                        attrs="{'invisible':[('current_att','!=',False)]}">Check in</button>-->
+<!--                <button type="submit"-->
+<!--                        class="btn btn-danger"-->
+<!--                        attrs="{'invisible':[('current_att','=',False)]}">Check out</button>-->
+            </form>
+        </t>
+    </template>
+</odoo>

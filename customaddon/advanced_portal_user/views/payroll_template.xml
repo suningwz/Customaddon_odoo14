@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_user_set_payroll_time" name="Payroll Time">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div class="container">
+                        <form style="margin: 100px 200px;" role="form" method="POST" action="/portal_user/payroll_detail">
+                            <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                            <div class="form-group">
+                                <label>Time</label>
+                                <div class="input-group datetime"
+                                     id="datetimepickerfromID"
+                                     data-target-input="nearest">
+                                    <input type="text"
+                                           class="form-control datetimepicker-input"
+                                           data-target="#datetimepickerfromID"
+                                           name="payroll_time"
+                                           t-att-value='payroll_time'/>
+                                    <div class="input-group-append"
+                                         data-target="#datetimepickerfromID"
+                                         data-toggle="datetimepicker">
+                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="clearfix oe_login_buttons">
+                                <button type="submit" class="btn btn-primary pull-left">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="portal_user_detail_payroll" name="Payroll Detail">
+        <t t-call="website.layout">
+            <div class="container" style="margin:50px;">
+                <table class="table">
+                    <thead>
+                        <tr class="thead-dark">
+                            <th scope="col">Name</th>
+                            <th scope="col">Code</th>
+                            <th scope="col">Rate</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Quantity</th>
+                            <th scope="col">Total</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      <t t-foreach="payslip_line" t-as="payslip_line_element">
+                        <tr>
+                            <td>
+                                <t t-esc="payslip_line_element.name"/>
+                            </td>
+                            <td>
+                                <t t-esc="payslip_line_element.code"/>
+                            </td>
+                            <td>
+                                <t t-esc="payslip_line_element.rate"/>
+                            </td>
+                            <td>
+                                <t t-esc="payslip_line_element.amount"/>
+                            </td>
+                            <td>
+                                <t t-esc="payslip_line_element.quantity"/>
+                            </td>
+                            <td>
+                                <t t-esc="payslip_line_element.total"/>
+                            </td>
+                        </tr>
+                    </t>
+                    </tbody>
+                </table>
+                <hr/>
+                <div class="row" style="margin:50px;">
+                    <div class="col-md-11 text-center text-uppercase font-weight-bold">
+                        Total
+                    </div>
+                    <div class="col-md-1 font-weight-bold">
+                        <t t-esc="payslip_line_total"/>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>
