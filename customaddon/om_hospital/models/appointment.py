@@ -26,7 +26,7 @@ class HospitalAppointment(models.Model):
     patient_id = fields.Many2one('hospital.patient', string='Patient', required=True)
     date_appointment = fields.Date(string='Date', required=True)
     # date_check = fields.Datetime(string='Check Up Time')
-    doctor_id = fields.Many2one('hospital.doctor', string='Doctor')
+    doctor_id = fields.Many2one('hospital.doctor', string='Doctor', required=True)
     prescription = fields.Text(string="Prescription")
     prescription_line_id = fields.One2many('appointment.prescription.line', 'appointment_id',
                                            string='Prescription Line')

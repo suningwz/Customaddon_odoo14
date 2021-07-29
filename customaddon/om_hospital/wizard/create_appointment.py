@@ -19,7 +19,7 @@ class CreateAppointmentWizard(models.TransientModel):
 
     def action_create_appointment(self):
         vals = {
-            'doctor_id': 1,
+            'doctor_id': self.doctor_id.id,
             'patient_id': self.patient_id.id,
             'date_appointment': self.date_appointment,
             'state': 'draft'
