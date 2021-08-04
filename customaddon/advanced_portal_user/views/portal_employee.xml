@@ -6,10 +6,8 @@
             <field name="model">res.users</field>
             <field name="inherit_id" ref="base.view_users_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='login']" position="after">
-                    <span style="margin-right: 10px; font-size:15px;"> /Create Employee</span>
-                    <field name="portal_employee"/>
-<!--                    <field name="employee_id" readonly="False"/>-->
+                <xpath expr="//field[@name='tz']" position="after">
+                    <field name="employee_related"/>
                 </xpath>
             </field>
         </record>

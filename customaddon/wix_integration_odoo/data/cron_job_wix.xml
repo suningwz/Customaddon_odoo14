@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="ir_cron_get_two_token_wix" model="ir.cron">
+            <field name="name">### Get Two Token Wix</field>
+            <field name="model_id" ref="wix_integration_odoo.model_infor_seller_wix"/>
+            <field name="state">code</field>
+            <field name="code">model.request_an_access_token()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">1</field>
+            <field name="doall" eval="False"/>
+        </record>
+
+        <record id="ir_cron_get_access_token_wix" model="ir.cron">
+            <field name="name">### Get Access Token Wix</field>
+            <field name="model_id" ref="wix_integration_odoo.model_infor_seller_wix"/>
+            <field name="state">code</field>
+            <field name="code">model.refresh_an_access_token()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+
+        <record id="ir_cron_get_infor_app_wix" model="ir.cron">
+            <field name="name">### Get Information App Wix</field>
+            <field name="model_id" ref="wix_integration_odoo.model_infor_app_wix"/>
+            <field name="state">code</field>
+            <field name="code">model.get_infor_app()</field>
+            <field name="interval_number">5</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">1</field>
+            <field name="doall" eval="False"/>
+        </record>
+
+        <record id="ir_cron_get_list_product_wix" model="ir.cron">
+            <field name="name">### Get List Product Wix</field>
+            <field name="model_id" ref="wix_integration_odoo.model_wix_product"/>
+            <field name="state">code</field>
+            <field name="code">model.get_list_product_wix()</field>
+            <field name="interval_number">30</field>
+            <field name="interval_type">minutes</field>
+            <field name="numbercall">-1</field>
+            <field name="doall" eval="False"/>
+        </record>
+
+
+    </data>
+</odoo>

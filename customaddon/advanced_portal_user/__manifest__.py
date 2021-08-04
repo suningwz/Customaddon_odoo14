@@ -16,25 +16,27 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'website', 'hr_attendance', 'hr_holidays', 'hr_payroll', 'hr_contract'],
+    'depends': ['base', 'website', 'hr_attendance', 'hr_holidays', 'hr_payroll', 'hr_contract', 'mail'],
 
     # always loaded
     'data': [
         'security/ir.model.access.csv',
         # 'views/css_loader.xml',
-        'views/over_time_views.xml',
         'views/attendance_template.xml',
         'views/leave_template.xml',
         'views/over_time_template.xml',
         'views/payroll_template.xml',
         'views/res_config_settings.xml',
         'views/portal_user_menu.xml',
+        # 'views/employee_views_inherit.xml',
+        'views/over_time_views.xml',
         'views/portal_employee.xml',
+
     ],
     # only loaded in demonstration mode
     'demo': [
     ],
     'installable': True,
-    'application': True,
+    'application': False,
     'auto_install': False,
 }

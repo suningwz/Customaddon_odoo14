@@ -9,18 +9,22 @@
                             <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
                             <div class="form-group">
                                 <label>Time</label>
-                                <div class="input-group datetime"
-                                     id="datetimepickerfromID"
-                                     data-target-input="nearest">
-                                    <input type="text"
-                                           class="form-control datetimepicker-input"
-                                           data-target="#datetimepickerfromID"
-                                           name="payroll_time"
-                                           t-att-value='payroll_time'/>
-                                    <div class="input-group-append"
-                                         data-target="#datetimepickerfromID"
-                                         data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <input type="text"
+                                               class="form-control"
+                                               name="year"
+                                               t-att-value='description'
+                                               placeholder="Enter Year"
+                                               required="required"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <input type="text"
+                                               class="form-control"
+                                               name="month"
+                                               t-att-value='description'
+                                               placeholder="Enter Month"
+                                               required="required"/>
                                     </div>
                                 </div>
                             </div>
@@ -73,12 +77,12 @@
                     </tbody>
                 </table>
                 <hr/>
-                <div class="row" style="margin:50px;">
-                    <div class="col-md-11 text-center text-uppercase font-weight-bold">
+                <div class="row" style="margin:20px;">
+                    <div class="col-md-10 text-center text-uppercase font-weight-bold">
                         Total
                     </div>
-                    <div class="col-md-1 font-weight-bold">
-                        <t t-esc="payslip_line_total"/>
+                    <div class="col-md-2 font-weight-bold">
+                        <t t-esc="payslip_line_total"/> $
                     </div>
                 </div>
             </div>

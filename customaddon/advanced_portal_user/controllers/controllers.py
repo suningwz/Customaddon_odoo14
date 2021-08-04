@@ -1,11 +1,7 @@
 # -*- coding: utf-8 -*-
 from datetime import datetime, date
-# import datetime
-# from datetime import *
-
 import pytz
 import werkzeug
-
 from odoo import http, exceptions, _
 from odoo.exceptions import ValidationError, UserError
 from odoo.http import request
@@ -16,19 +12,29 @@ class AdvancedPortalUser(http.Controller):
                 csrf=False)
     def portal_user_create_attendances(self, **kw):
         user_id = request.env.user.id
-        employee_id = request.env['hr.employee'].sudo().search([('user_id', '=', user_id)]).id
+        employee_id = request.env.user.employee_related.id
+        employee_name = request.env.user.employee_related.name
         current_att = request.env['hr.attendance'].sudo().search([('employee_id', '=', employee_id),
                                                                   ('user_id', '=', user_id),
                                                                   ('check_in', '!=', None),
                                                                   ('check_out', '=', None)])
-        current_att_check_in = str(current_att['check_in'])[:16]
-        return request.render("advanced_portal_user.portal_user_create_attendances", {'current_att_check_in': current_att_check_in})
+        check_in_obj = current_att['check_in']
+        check_in_str = str(check_in_obj)[:16]
+        check_out_obj = current_att['check_out']
+        check_out_str = str(check_out_obj)[:16]
+        return request.render("advanced_portal_user.portal_user_create_attendances",
+                              {'check_in_str': check_in_str,
+                               'check_in_obj': check_in_obj,
+                               'check_out_obj': check_out_obj,
+                               'check_out_str': check_out_str,
+                               'employee_name': employee_name
+                               })
 
     @http.route('/portal_user/save_attendances', website=True, auth='user', type="http", methods=['POST', 'GET'],
                 csrf=False)
     def portal_user_save_attendances(self, **kw):
         user_id = request.env.user.id
-        employee_id = request.env['hr.employee'].sudo().search([('user_id', '=', user_id)]).id
+        employee_id = request.env.user.employee_related.id
         today = date.today().strftime("%Y-%m-%d")
         today_str = str(today)
         start_time = request.env['ir.config_parameter'].sudo().get_param('advanced_portal_user.time_in')
@@ -40,7 +46,7 @@ class AdvancedPortalUser(http.Controller):
         if end_time:
             pass
         else:
-            end_time = '18:00:00'
+            end_time = '19:00:00'
         start_date_time = datetime.strptime(today + ' ' + start_time + '.000000', '%Y-%m-%d %H:%M:%S.%f')
         end_date_time = datetime.strptime(today + ' ' + end_time + '.000000', '%Y-%m-%d %H:%M:%S.%f')
         current_time_str = str(datetime.now(pytz.timezone('Asia/Saigon'))).replace("+07:00", "")
@@ -76,7 +82,8 @@ class AdvancedPortalUser(http.Controller):
     def generate_template_create_leaves(self, **kw):
         user_id = request.env.user.id
         employee_id = request.env['hr.employee'].sudo().search([('user_id', '=', user_id)]).id
-        leave_type = request.env['hr.leave.type'].sudo().search([('allocation_type', '=', 'no')])
+        leave_type = request.env['hr.leave.type'].sudo().search([])
+        # ('allocation_type', '=', 'no')
         all_leave = request.env['hr.leave'].sudo().search([('employee_id', '=', employee_id)])
         total_hours = 0
         for leave in all_leave:
@@ -86,9 +93,8 @@ class AdvancedPortalUser(http.Controller):
     @http.route('/portal_user/save_leaves', auth='user', website=True, type="http", methods=['POST', 'GET'], csrf=False)
     def portal_user_create_leaves(self, **kw):
         user_id = request.env.user.id
-        employee_id = request.env['hr.employee'].sudo().search([('user_id', '=', user_id)]).id
+        employee_id = request.env.user.employee_related.id
         date_from_str = kw['date_from']
-        # date_from_obj = date.strptime(date_from_str[:10], '%m/%d/%Y')
         time_from_obj_default_date = str(datetime.strptime(date_from_str[11:], '%I:%M %p'))
         full_time_from_str = date_from_str[:11] + time_from_obj_default_date[11:] + '.' + '000000'
         full_time_from_obj = datetime.strptime(full_time_from_str, '%m/%d/%Y %H:%M:%S.%f')
@@ -96,7 +102,8 @@ class AdvancedPortalUser(http.Controller):
         time_to_obj_default_date = str(datetime.strptime(date_to_str[11:], '%I:%M %p'))
         full_time_to_str = date_to_str[:11] + time_to_obj_default_date[11:] + '.' + '000000'
         full_time_to_obj = datetime.strptime(full_time_to_str, '%m/%d/%Y %H:%M:%S.%f')
-        leave_type = int(kw['leave_type'])
+        leave_type_kw = int(kw['leave_type'])
+        leave_type = request.env['hr.leave.type'].sudo().search([('id', '=', leave_type_kw)]).id
         leave_val = {
             'private_name': kw.get('private_name'),
             'state': 'confirm',
@@ -119,14 +126,14 @@ class AdvancedPortalUser(http.Controller):
     @http.route('/portal_user/create_over_time', website=True, auth='user', type="http", methods=['POST', 'GET'], csrf=False)
     def portal_user_create_over_time(self, **kw):
         user_id = http.request.env.user.id
-        employee_id = request.env['hr.employee'].sudo().search([('user_id', '=', user_id)]).id
+        employee_id = request.env.user.employee_related.id
         return request.render("advanced_portal_user.portal_user_create_over_time", {'employee_id': employee_id})
 
     @http.route('/portal_user/save_over_time', website=True, auth='user', type="http", methods=['POST', 'GET'],
                 csrf=False)
     def portal_user_save_over_time(self, **kw):
         user_id = http.request.env.user.id
-        employee_id = request.env['hr.employee'].sudo().search([('user_id', '=', user_id)]).id
+        employee_id = request.env.user.employee_related.id
         time_from_str = kw['time_from']
         time_from_obj_default_date = str(datetime.strptime(time_from_str[11:], '%I:%M %p'))
         full_time_from_str = time_from_str[:11] + time_from_obj_default_date[11:] + '.' + '000000'
@@ -136,13 +143,16 @@ class AdvancedPortalUser(http.Controller):
         full_time_to_str = time_to_str[:11] + time_to_obj_default_date[11:] + '.' + '000000'
         full_time_to_obj = datetime.strptime(full_time_to_str, '%m/%d/%Y %H:%M:%S.%f')
         description = kw['description']
-        # approver = request.env['hr.employee'].sudo().search([('user_id', '=', user_id)]).leave_manager_id
+        approver = request.env['hr.employee'].sudo().search([('id', '=', employee_id)]).leave_manager_id.id
+        if not approver:
+            approver = 1
         over_time_val = {
             'user_id': user_id,
             'employee_id': employee_id,
             'description': description,
             'time_from': full_time_from_obj,
             'time_to': full_time_to_obj,
+            'approver': approver,
         }
         request.env['hr.over.time'].sudo().create(over_time_val)
         return request.render("advanced_portal_user.success_to_create_over_time_request", {})
@@ -156,12 +166,10 @@ class AdvancedPortalUser(http.Controller):
                 csrf=False)
     def portal_user_view_payroll(self, **kw):
         user_id = http.request.env.user.id
-        employee_id = request.env['hr.employee'].sudo().search([('user_id', '=', user_id)]).id
-        payroll_set_time = kw['payroll_time']
-        payroll_set_month = payroll_set_time[:10]
+        employee_id = request.env.user.employee_related.id
+        payroll_set_month = kw['month'] + '/15/' + kw['year']
         datetime_set_obj = datetime.strptime(payroll_set_month, '%m/%d/%Y')
         date_set_obj = datetime_set_obj.date()
-        # a = range(((datetime.datetime.now().year) - 10), ((datetime.datetime.now().year) + 1))
         payslip_list = request.env['hr.payslip'].sudo().search([('employee_id', '=', employee_id)])
         if payslip_list:
             for payslip in payslip_list:

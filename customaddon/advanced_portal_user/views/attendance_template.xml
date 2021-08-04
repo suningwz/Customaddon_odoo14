@@ -2,16 +2,55 @@
 <odoo>
     <template id="portal_user_create_attendances" name="Create Leaves">
         <t t-call="website.layout">
-            <h3 style="margin-top: 50px; text-align:center"> Hi there, The last time you check in at : <t t-esc="current_att_check_in"/></h3>
-            <form style="margin: 200px;" action="/portal_user/save_attendances" method="post">
-                <button style="display: block; margin: auto; " type="submit"
-                        class="btn btn-success">Create Attendance</button>
-<!--                <button type="submit"-->
-<!--                        class="btn btn-primary"-->
-<!--                        attrs="{'invisible':[('current_att','!=',False)]}">Check in</button>-->
-<!--                <button type="submit"-->
-<!--                        class="btn btn-danger"-->
-<!--                        attrs="{'invisible':[('current_att','=',False)]}">Check out</button>-->
+            <form style="margin: 100px;" action="/portal_user/save_attendances" method="post">
+                <t t-if="not check_in_obj">
+                    <div style="text-align: center;">
+                        <div>
+                            <h2>
+                                Hi <t t-esc="employee_name"/>
+                            </h2>
+                        </div>
+                        <div style="margin:20px;">
+                            <h5>
+                                Welcome!
+                            </h5>
+                        </div>
+                        <div style="margin: 20px;">
+                            <button type="submit"
+                                    style="border-radius:10%;"
+                                    class="btn btn-primary">
+                                <i style="font-size:150px;" class="fa fa-sign-in"/>
+                            </button>
+                        </div>
+                        <div style="opacity: 0.5;">
+                            <p>Click to <strong>Check In</strong></p>
+                        </div>
+                    </div>
+                </t>
+                <t t-if="check_in_obj">
+                    <div style="text-align: center;">
+                        <div>
+                            <h2>
+                                Hi <t t-esc="employee_name"/>
+                            </h2>
+                        </div>
+                        <div style="margin:20px;">
+                            <h5>
+                                You just checked in at <t t-esc="check_in_str"/>
+                            </h5>
+                        </div>
+                        <div style="margin: 20px;">
+                            <button type="submit"
+                                    style="border-radius:10%;"
+                                    class="btn btn-warning">
+                                <i style="font-size:150px;" class="fa fa-sign-out"/>
+                            </button>
+                        </div>
+                        <div style="opacity: 0.5;">
+                            <p>Click to <strong>Check Out</strong></p>
+                        </div>
+                    </div>
+                </t>
             </form>
         </t>
     </template>
