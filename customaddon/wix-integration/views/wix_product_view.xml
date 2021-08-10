@@ -29,12 +29,24 @@
                                 <field name="currency"/>
                                 <field name="price" widget="monetary"/>
                                 <field name="discountedPrice" widget="monetary"/>
-                                <field name="manageVariants"/>
+                                <field name="productOptions"/>
                                 <field name="inventoryItemId"/>
                                 <field name="ribbon"/>
                                 <field name="brand"/>
                             </group>
                         </group>
+                        <notebook>
+                            <page string="Product Variants" name="product_variants">
+                                <group>
+                                    <field name="description"/>
+                                </group>
+                            </page>
+                            <page string="Product Description" name="product_description">
+                                <group>
+                                    <field name="description" nolabel="1"/>
+                                </group>
+                            </page>
+                        </notebook>
                     </sheet>
                 </form>
             </field>
@@ -126,23 +138,11 @@
                 web_icon="wix_integration_odoo,static/description/icon.png"/>
 
         <menuitem
-                name="My Product"
+                name="Product"
                 id="wix_product_menu_inherit"
                 parent="wix_product_menu"
-                sequence="10"/>
-        <menuitem
-                name="Product"
-                id="wix_product_menu_inherit_1"
-                parent="wix_product_menu_inherit"
                 action="wix_product_act_window"
                 sequence="10"/>
-        <menuitem
-                name="Product Variants"
-                id="wix_product_variant_menu_inherit"
-                parent="wix_product_menu_inherit"
-                action="wix_product_act_window"
-                sequence="20"/>
-
 
     </data>
 </odoo>

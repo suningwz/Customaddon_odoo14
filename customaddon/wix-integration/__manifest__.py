@@ -1,16 +1,17 @@
 # -*- coding: utf-8 -*-
 {
-    'name': "Wix Integration Odoo",
+    'name': "Wix Integration",
 
     'summary': """
-        Sync Database From Wix To Odoo""",
+        Sync Database From Wix To Odoo 
+    """,
     'sequence': 10,
     'description': """
-        Sync Database From Wix To Odoo
+        Sync Database From Wix To Odoo 
     """,
 
-    'author': "My Company",
-    'website': "http://www.yourcompany.com",
+    'author': "iamkien",
+    'website': "https://magenest.com/vi/",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
@@ -19,7 +20,7 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'contacts', 'account', 'mail'],
+    'depends': ['base'],
 
     # always loaded
     'data': [
@@ -27,11 +28,12 @@
         'views/wix_product_view.xml',
         'views/infor_seller_wix_view.xml',
         'views/infor_app_wix_view.xml',
+        'views/infor_business_wix_view.xml',
 
     ],
     # only loaded in demonstration mode
     'demo': [
-        # 'demo/demo.xml',
+        'demo/demo.xml',
     ],
     'installable': True,
     'application': True,

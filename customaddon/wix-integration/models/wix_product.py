@@ -26,10 +26,13 @@ class WixProduct(models.Model):
     price = fields.Float(string='Product Price')
     discountedPrice = fields.Float(string='Discounted Product Price')
     image = fields.Binary()
-    manageVariants = fields.Boolean(string='Manage Variants')
+    productOptions = fields.Boolean(string='Manage Variants')
     inventoryItemId = fields.Char(string='Inventory Item ID')
     ribbon = fields.Char()
     brand = fields.Char()
+    attribute_value = fields.Char()
+
+    product_product_variant_id = fields.One2many('wix.product.variants', 'product_variant_product_id')
 
     def get_list_product_wix(self):
         try:
@@ -53,7 +56,7 @@ class WixProduct(models.Model):
                             'visible': record_product['visible'].capitalize(),
                             'productType': record_product['productType'],
                             'description': re.sub(r'<.*?>', '', record_product['description']),
-                            'sku': record_product['sku'] or None,
+                            'sku': record_product['sku'] if 'sku' in record_product else None,
                             'weight': float(record_product['weight']),
                             'trackInventory': record_product['stock']['trackInventory'].capitalize(),
                             'quantity': int(record_product['stock']['quantity']),
@@ -61,7 +64,8 @@ class WixProduct(models.Model):
                             'currency': record_product['priceData']['currency'],
                             'price': record_product['priceData']['price'],
                             'discountedPrice': record_product['priceData']['discountedPrice'],
-                            'manageVariants': record_product['manageVariants'].capitalize(),
+                            'productOptions': True if record_product['productOptions'].capitalize() else False,
+                            'attribute_value': record_product['productOptions'],
                             'inventoryItemId': record_product['inventoryItemId'],
                             'ribbon': record_product['ribbon'],
                             'brand': record_product['brand'],
@@ -74,8 +78,10 @@ class WixProduct(models.Model):
                             existed_product.write(val)
 
                             # Function Get Product Variant
-                else:
-                    raise ValidationError(result_response['message'])
-
+                    else:
+                        raise ValidationError(result_response['message'])
+            else:
+                raise ValidationError('No Information To Sync Data From Wix To Odoo')
         except Exception as e:
             raise ValidationError(str(e))
+

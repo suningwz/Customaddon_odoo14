@@ -74,9 +74,10 @@ class WixProduct(models.Model):
                             self.env['infor.app.wix'].create(val)
                         else:
                             existed_app.write(val)
-
                 else:
-                    raise ValidationError('Access Token is Invalid or Expired')
+                    raise ValidationError(result_response['message'])
+            else:
+                raise ValidationError('Access Token is Invalid or Expired')
 
         except Exception as e:
             raise ValidationError(str(e))
