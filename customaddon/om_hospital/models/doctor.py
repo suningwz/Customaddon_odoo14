@@ -25,6 +25,7 @@ class HospitalDoctor(models.Model):
         if vals.get('reference', _('New')) == _('New'):
             vals['reference'] = self.env['ir.sequence'].next_by_code('hospital.doctor') or _('New')
         res = super(HospitalDoctor, self).create(vals)
+        print(res.id)
         return res
 
     def copy(self, default=None):

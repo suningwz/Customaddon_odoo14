@@ -21,14 +21,16 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
-        # 'views/css_loader.xml',
+        'views/css_loader.xml',
         'views/attendance_template.xml',
         'views/leave_template.xml',
         'views/over_time_template.xml',
         'views/payroll_template.xml',
+        'views/order_template.xml',
         'views/res_config_settings.xml',
+        'views/attendance_views_inherit.xml',
         'views/portal_user_menu.xml',
-        # 'views/employee_views_inherit.xml',
+        'views/portal_user_nav_menu.xml',
         'views/over_time_views.xml',
         'views/portal_employee.xml',
 

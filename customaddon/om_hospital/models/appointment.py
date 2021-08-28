@@ -54,6 +54,7 @@ class HospitalAppointment(models.Model):
         if vals.get('name', _('New')) == _('New'):
             vals['name'] = self.env['ir.sequence'].next_by_code('hospital.appointment') or _('New')
         res = super(HospitalAppointment, self).create(vals)
+        print(res.id)
         return res
 
     @api.onchange('patient_id')

@@ -1,7 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <template id="portal_my_list_over_time" name="My Over Time">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Over Time</t>
+            </t>
+            <t t-if="not list_over_time">
+                <p>There are currently no over time for your account.</p>
+            </t>
+            <t t-if="list_over_time" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th class="text-center">ID #</th>
+                        <th class="text-center">Description</th>
+                        <th class="text-center">Time From</th>
+                        <th class="text-center">Time To</th>
+                        <th class="text-center">Status</th>
+                    </tr>
+                </thead>
+                <t t-foreach="list_over_time" t-as="element_over_time">
+                    <tr>
+                        <td class="text-center"><span t-field="element_over_time.id"/></td>
+                        <td class="text-center"><span t-field="element_over_time.description"/></td>
+                        <td class="text-center"><span t-field="element_over_time.time_from"/></td>
+                        <td class="text-center"><span t-field="element_over_time.time_to"/></td>
+                        <td class="text-center">
+                            <t t-if="element_over_time.state == 'draft'">
+                                <span class="badge badge-pill badge-info"><i class="fa fa-clock-o"/> Pending</span>
+                            </t>
+                            <t t-if="element_over_time.state == 'approved'">
+                                <span class="badge badge-pill badge-success"><i class="fa fa-check"/> Approved</span>
+                            </t>
+                            <t t-if="element_over_time.state == 'refused'">
+                                <span class="badge badge-pill badge-warning"><i class="fa fa-times"/> Refused</span>
+                            </t>
+                        </td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
     <template id="portal_user_create_over_time" name="Create Over Time">
-        <t t-call="website.layout">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True"/>
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Create Leave Request</t>
+            </t>
             <div id="wrap">
                 <div class="oe_structure">
                     <div class="container">
@@ -20,7 +65,7 @@
                                     <div class="input-group-append"
                                          data-target="#datetimepickerfromID"
                                          data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        <div class="input-group-text"><i class="fa fa-calendar"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -37,7 +82,7 @@
                                     <div class="input-group-append"
                                          data-target="#datetimepickertoID"
                                          data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                                        <div class="input-group-text"><i class="fa fa-calendar"/></div>
                                     </div>
                                 </div>
                             </div>
@@ -83,6 +128,5 @@
                 </t>
             </t>
         </field>
-
     </record>
 </odoo>

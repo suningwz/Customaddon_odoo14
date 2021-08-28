@@ -1,14 +1,6 @@
 # -*- coding: utf-8 -*-
-from datetime import date
 
 from odoo import models, fields, api, _
-
-
-# class OverTimeManager(models.Model):
-#     _inherit = 'hr.employee'
-#     _description = 'Over Time Manager ID'
-#
-#     over_time_manager_id = fields.Many2one('res.user', 'Over Time')
 
 
 class OverTime(models.Model):
