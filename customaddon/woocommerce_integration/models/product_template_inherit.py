@@ -95,12 +95,12 @@ class ProductTemplateInheritSendo(models.Model):
 
                         #   Add Variant For Product
                         attrib_line_vals = []
-                        if "id" in data["attributes"][0]:
+                        if data["attributes"]:
                             attrib_line_vals = self.prepare_attribute_vals(data)
                         if len(attrib_line_vals) > 0:
                             val['attribute_line_ids'] = attrib_line_vals
-                        existed_product.sudo().attribute_line_ids = False
-                        existed_product.write(val)
+                            existed_product.sudo().attribute_line_ids = False
+                            existed_product.write(val)
                 else:
                     raise ValidationError(_('Sync Category From Woocommerce Is Fail.'))
         except Exception as e:

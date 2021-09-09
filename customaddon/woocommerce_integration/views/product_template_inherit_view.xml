@@ -13,7 +13,7 @@
                     <!--                    <field name="woo_tags"/>-->
                     <field name="woo_date_created" readonly="1"/>
                     <field name="woo_date_modified" readonly="1"/>
-                    <field name="product_category_woocommerce" widget="many2many_tags"/>
+                    <field name="product_category_woocommerce" widget="many2many_tags" readonly="1"/>
                 </xpath>
 
                 <xpath expr="//field[@name='company_id']" position="after">
