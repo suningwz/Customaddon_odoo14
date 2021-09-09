@@ -38,7 +38,7 @@ class WoocommerceCategory(models.Model):
                 for cate in result_category:
                     if cate['id']:
                         val['woocommerce_cate_id'] = cate['id']
-                        val['woocommerce_name'] = cate['name']
+                        val['woocommerce_name'] = cate['name'].replace('amp;', '')
                         val['woocommerce_slug'] = cate['slug']
                         val['woocommerce_parent_id'] = cate['parent']
                         val['woocommerce_count'] = cate['count']
