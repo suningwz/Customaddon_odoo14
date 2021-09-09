@@ -10,7 +10,7 @@
     """,
     'category': 'Uncategorized',
     'website': '#',
-    'depends': ['base', 'sale_management', 'product', 'website_sale', 'mail'],
+    'depends': ['base', 'sale_management', 'product', 'website_sale', 'mail', 'stock'],
     'data': [
         'security/ir.model.access.csv',
         'data/cron_job_sendo.xml',

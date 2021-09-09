@@ -56,7 +56,6 @@ class ApiSendoProductCategoryInherit(models.Model):
         except Exception as e:
             raise ValidationError(str(e))
 
-
     #       Add To Module Sale
     def get_child_categories_sendo_to_product_template(self):
         try:
