@@ -1,3 +1,4 @@
+
 import requests
 import json
 from datetime import *
@@ -68,9 +69,6 @@ class SaleOrderInherit(models.Model):
                          ('email', '=', customesr['email'])], limit=1)
                     if len(existing_customer) < 1:
                         self.env['res.partner'].create(vals_customesr)
-                        get_customer = self.env['res.partner'].sudo().search(
-                            ['&', ('phone', '=', customesr['phone']),
-                             ('email', '=', customesr['email'])], limit=1)
 
                         # Get Information Order
                         vals_order = {
@@ -79,8 +77,8 @@ class SaleOrderInherit(models.Model):
                             'woo_order_status': data['status'],
                             'woo_payment_method': data['payment_method_title'],
                             'amount_total': float(data['total']),
-                            'date_order': data['date_created'].replace('T',' ') ,
-                            'partner_id': get_customer.id
+                            'date_order': data['date_created'].replace('T',' '),
+                            'partner_id': existing_customer.id
                         }
 
                         #   Check Order In Database
@@ -111,13 +109,11 @@ class SaleOrderInherit(models.Model):
                             'woo_order_number': data['number'],
                             'name': data['number'],
                             'woo_order_status': data['status'],
-                            # 'woo_payment_status': data['status'], #khogn tim thay trang thai giao hang
                             'woo_payment_method': data['payment_method_title'],
-                            'amount_total': data['total'],
-                            # 'amount_untaxed': data['status'],
-                            'date_order': datetime.fromtimestamp(data['date_created']),
-                            'partner_id': get_customer.id,
-                            'check_woo_customer': True
+                            'amount_total': float(data['total']),
+                            'date_order': data['date_created'].replace('T', ' '),
+                            'partner_id': existing_customer.id
+
                         }
 
                         #   Check Order In Database
