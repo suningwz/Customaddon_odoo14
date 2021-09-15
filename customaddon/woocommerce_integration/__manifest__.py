@@ -27,6 +27,7 @@
         'views/woocommerce_seller_view.xml',
         'views/woocommerce_category_view.xml',
         'views/product_template_inherit_view.xml',
+        'views/sale_order_inherit_view.xml',
 
     ],
     'installable': True,

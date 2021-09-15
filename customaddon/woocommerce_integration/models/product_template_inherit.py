@@ -132,23 +132,29 @@ class ProductTemplateInheritSendo(models.Model):
                     attrib_line_vals.append(attribute_line_ids_data)
         return attrib_line_vals
 
-
     def update_stock_product_woocommerce(self):
+        try:
+            current_seller = self.env['woocommerce.seller'].sudo().search([])[0]
+            product = "products/" + self.woo_product_id
+            data = {
+                "manage_stock": True if int(self.qty_available) > 0 else False,
+                "stock_quantity": int(self.qty_available)
+            }
 
-        current_seller = self.env['woocommerce.seller'].sudo().search([])[0]
-        product = "products/" + self.woo_product_id
-        data = {
-            "manage_stock": True if int(self.qty_available) > 0 else False,
-            "stock_quantity": int(self.qty_available)
-        }
+            wcapi = API(
+                url=str(current_seller.link_website),
+                consumer_key=str(current_seller.consumer_key),
+                consumer_secret=str(current_seller.consumer_secret),
+                wp_api=True,
+                version="wc/v3",
+                query_string_auth=True  # Force Basic Authentication as query string true and using under HTTPS
+            )
 
-        wcapi = API(
-            url=str(current_seller.link_website),
-            consumer_key=str(current_seller.consumer_key),
-            consumer_secret=str(current_seller.consumer_secret),
-            wp_api=True,
-            version="wc/v3",
-            query_string_auth=True  # Force Basic Authentication as query string true and using under HTTPS
-        )
+            result = wcapi.put(product, data).json()
 
-        print(wcapi.put(product, data).json())
+            if "id" in result[0]:
+                pass
+            else:
+                raise ValidationError(_('Update Stock Available Product Woocommerce is Fail.'))
+        except Exception as e:
+            raise ValidationError(str(e))
