@@ -43,45 +43,44 @@ class SaleOrderInherit(models.Model):
 
             result_list_order = response.json()
 
-            if result_list_order["data"]["status"]:
+            if "code" in result_list_order:
                 raise ValidationError(_(result_list_order["message"]))
             elif result_list_order[0]["id"]:
                 list_product = []
                 for data in result_list_order:
-
+                    customesr = data["billing"]
                     #   Get Information Customer
                     vals_customesr = {
-                        'name': data['last_name'] + data['first_name'],
-                        'phone': data['phone'],
-                        'mobile': data['phone'],
-                        'email': data['email'],
+                        'name': customesr['last_name'] + customesr['first_name'],
+                        'phone': customesr['phone'],
+                        'mobile': customesr['phone'],
+                        'email': customesr['email'],
                         'company_type': 'person',
                         'type': 'contact',
-                        'street': data['address_1'],
+                        'street': customesr['address_1'],
                         'comment': 'Sync By Call Woocommerce API',
                         'check_woo_customer': True
                     }
 
                     #   Check Customer
                     existing_customer = self.env['res.partner'].sudo().search(
-                        ['&', ('phone', '=', str(data['phone'])),
-                         ('email', '=', data['email'])], limit=1)
+                        ['&', ('phone', '=', customesr['phone']),
+                         ('email', '=', customesr['email'])], limit=1)
                     if len(existing_customer) < 1:
                         self.env['res.partner'].create(vals_customesr)
                         get_customer = self.env['res.partner'].sudo().search(
-                            ['&', ('phone', '=', str(data['phone'])),
-                             ('email', '=', data['email'])], limit=1)
+                            ['&', ('phone', '=', customesr['phone']),
+                             ('email', '=', customesr['email'])], limit=1)
 
                         # Get Information Order
                         vals_order = {
-                            'woo_order_number': str(data['number']),
-                            'name': str(data['number']),
+                            'woo_order_number': data['number'],
+                            'name': data['number'],
                             'woo_order_status': data['status'],
                             'woo_payment_method': data['payment_method_title'],
-                            'amount_total': data['total'],
-                            'date_order': datetime.fromtimestamp(data['date_created']),
-                            'partner_id': get_customer.id,
-
+                            'amount_total': float(data['total']),
+                            'date_order': data['date_created'].replace('T',' ') ,
+                            'partner_id': get_customer.id
                         }
 
                         #   Check Order In Database
@@ -97,9 +96,9 @@ class SaleOrderInherit(models.Model):
                                             [('woo_product_id', '=', product['product_id'])], limit=1)
                                         if existing_products:
                                             list_product.append({
-                                                'product_id': existing_products.product_id.id,
+                                                'product_id': existing_products.product_variant_id.id,
                                                 'product_uom_qty': product['quantity'],
-                                                'price_unit': product['price']
+                                                'price_unit': float(product['price'])
                                             })
                                             if list_product:
                                                 new_record.order_line = [(0, 0, e) for e in list_product]
@@ -109,11 +108,13 @@ class SaleOrderInherit(models.Model):
                     else:
                         # Get Information Order
                         vals_order = {
-                            'woo_order_number': str(data['number']),
-                            'name': str(data['number']),
+                            'woo_order_number': data['number'],
+                            'name': data['number'],
                             'woo_order_status': data['status'],
+                            # 'woo_payment_status': data['status'], #khogn tim thay trang thai giao hang
                             'woo_payment_method': data['payment_method_title'],
                             'amount_total': data['total'],
+                            # 'amount_untaxed': data['status'],
                             'date_order': datetime.fromtimestamp(data['date_created']),
                             'partner_id': get_customer.id,
                             'check_woo_customer': True
@@ -132,9 +133,9 @@ class SaleOrderInherit(models.Model):
                                             [('woo_product_id', '=', product['product_id'])], limit=1)
                                         if existing_products:
                                             list_product.append({
-                                                'product_id': existing_products.product_id.id,
+                                                'product_id': existing_products.product_variant_id.id,
                                                 'product_uom_qty': product['quantity'],
-                                                'price_unit': product['price']
+                                                'price_unit': float(product['price'])
                                             })
                                             if list_product:
                                                 new_record.order_line = [(0, 0, e) for e in list_product]

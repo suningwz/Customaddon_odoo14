@@ -152,9 +152,7 @@ class ProductTemplateInheritSendo(models.Model):
 
             result = wcapi.put(product, data).json()
 
-            if "id" in result[0]:
-                pass
-            else:
+            if not "id" in result:
                 raise ValidationError(_('Update Stock Available Product Woocommerce is Fail.'))
         except Exception as e:
             raise ValidationError(str(e))
