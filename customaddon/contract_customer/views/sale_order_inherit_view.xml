@@ -7,10 +7,14 @@
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='state']" position="before">
-                    <button id="button_check_debit_customer" name="check_debit_customer"
-                            type="object" string="Check Debit"
+                    <button name="create_contract_customer"
+                            type="object" string="Tạo hợp đồng khách hàng" id="action_create_contract_customer"
                             class="btn-primary"
+                            attrs="{'invisible':['|', ('sale_order_contract_id','!=', False), ('state', '!=', 'sale')]}"
                     />
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="after">
+                    <field name="sale_order_contract_id" readonly="1"/>
                 </xpath>
             </field>
         </record>

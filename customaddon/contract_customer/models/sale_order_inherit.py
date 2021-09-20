@@ -1,9 +1,14 @@
 from odoo import _, models, fields, api
 from odoo.exceptions import UserError, ValidationError
+from datetime import date
 
 
 class SaleOrderInherit(models.Model):
     _inherit = 'sale.order'
+
+    sale_order_contract_id = fields.Many2one("contract.customer", string="Contract Customer")
+
+    # sale_order_create_contract = fields.Many2many("create.contract.wizard")
 
     def action_confirm(self):
         check_money_debt = self.env['res.partner'].search([('id', '=', int(self.partner_id))], limit=1)
@@ -33,4 +38,13 @@ class SaleOrderInherit(models.Model):
                 self.action_done()
             return True
 
-
+    def create_contract_customer(self):
+        vals = {
+            'contract_id': self.name,
+            'customer_name': self.partner_id.name,
+            'amount_total': self.amount_total,
+            'signing_date': date.today(),
+            'state': 'new',
+            'contract_sale_order': self.ids
+        }
+        self.env['contract.customer'].create(vals)

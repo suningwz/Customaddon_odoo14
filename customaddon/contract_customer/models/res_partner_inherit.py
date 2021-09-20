@@ -4,7 +4,7 @@ from odoo import fields, models, api
 class ResPartnerInherit(models.Model):
     _inherit = 'res.partner'
 
-    money_debt = fields.Float(string='Hạn mức tiền nợ')
+    money_debt = fields.Float(string='Hạn mức tiền nợ', default=0)
     time_debt = fields.Float(string='Hạn mức thời gian nợ (Tháng)')
 
     def check_debt_customer(self):

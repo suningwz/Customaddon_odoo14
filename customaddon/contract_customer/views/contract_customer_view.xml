@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <record id="contract_customer_order_form_view" model="ir.ui.view">
+            <field name="name">contract.customer.order.form</field>
+            <field name="model">contract.customer</field>
+            <field name="arch" type="xml">
+                <form string="Contract Customer">
+<!--                <form string="Contract Customer" create="false">-->
+                    <header>
+                        <button string="Confirm Contract" type="object" name="action_done" states="new" class="oe_highlight"/>
+                        <field name="state" widget="statusbar" />
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="contract_id"/>
+                            <h1>
+                                <field name="contract_id" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                                <field name="customer_name" readonly="1"/>
+                                <field name="signing_date" />
+                                <field name="amount_total" readonly="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="contract_customer_order_tree_view" model="ir.ui.view">
+            <field name="name">contract.customer.order.tree</field>
+            <field name="model">contract.customer</field>
+            <field name="arch" type="xml">
+                <tree string="Contract Customer" sample="1">
+<!--                <tree string="Contract Customer" sample="1" create="false">-->
+                    <field name="contract_id" readonly="1"/>
+                    <field name="customer_name" readonly="1"/>
+                    <field name="signing_date" />
+                    <field name="amount_total" readonly="1"/>
+                    <field name="state" readonly="1"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="contract_customer_act_window" model="ir.actions.act_window">
+            <field name="name">Contract Customer</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">contract.customer</field>
+            <field name="view_mode">form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    There is no examples click Create to add new Contract Customer.
+                </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

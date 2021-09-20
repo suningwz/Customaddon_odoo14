@@ -25,8 +25,10 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        # 'wizard/create_contract_wizard_view.xml',
         'views/res_partner_inherit_view.xml',
-        # 'views/sale_order_inherit_view.xml',
+        'views/sale_order_inherit_view.xml',
+        'views/contract_customer_view.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
