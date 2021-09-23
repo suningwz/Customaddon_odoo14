@@ -40,8 +40,7 @@ class SaleOrderInherit(models.Model):
 
     def create_contract_customer(self):
         vals = {
-            'contract_id': self.name,
-            'customer_name': self.partner_id.name,
+            'customer_name_id': self.partner_id.id,
             'amount_total': self.amount_total,
             'signing_date': date.today(),
             'state': 'new',

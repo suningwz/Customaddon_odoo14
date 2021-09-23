@@ -3,8 +3,7 @@
     'name': "Management Contract Customer",
 
     'summary': """
-        Short (1 phrase/line) summary of the module's purpose, used as
-        subtitle on modules listing or apps.openerp.com""",
+        This Module will help users manage contracts for each order in Module Sales easily.""",
 
     'description': """
         Long description of module's purpose
@@ -25,6 +24,7 @@
     # always loaded
     'data': [
         'security/ir.model.access.csv',
+        'data/data.xml',
         # 'wizard/create_contract_wizard_view.xml',
         'views/res_partner_inherit_view.xml',
         'views/sale_order_inherit_view.xml',
