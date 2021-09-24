@@ -15,6 +15,7 @@
         'data/data.xml',
         'wizard/create_appointment_view.xml',
         'wizard/search_appointment_view.xml',
+        'wizard/appointment_report_view.xml',
         'views/patient.xml',
         'views/kid_patient.xml',
         'views/patient_gender.xml',

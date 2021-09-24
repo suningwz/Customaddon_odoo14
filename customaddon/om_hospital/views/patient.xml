@@ -194,5 +194,18 @@
                   parent="menu_patient_root"
                   action="action_hospital_patient"
                   sequence="10"/>
+
+<!--        Print Appointment-->
+        <menuitem id="menu_reporting"
+                  name="Reporting"
+                  parent="menu_hospital_root"
+                  sequence="100"/>
+
+        <menuitem id="menu_appointment_report"
+                  name="Appointments"
+                  parent="menu_reporting"
+                  action="action_report_appointment_wizard"
+                  sequence="10"/>
+
     </data>
 </odoo>

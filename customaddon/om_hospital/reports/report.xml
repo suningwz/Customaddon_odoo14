@@ -32,5 +32,15 @@
             <field name="binding_type">report</field>
         </record>
 
+        <record id="action_report_appointment" model="ir.actions.report">
+            <field name="name">Appointment Details</field>
+            <field name="model">appointment.report.wizard</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">om_hospital.report_appointment_details</field>
+            <field name="report_file">om_hospital.report_appointment_details</field>
+            <field name="binding_model_id" ref="model_appointment_report_wizard"/>
+            <field name="binding_type">report</field>
+        </record>
+
     </data>
 </odoo>

@@ -3,9 +3,9 @@
 # from odoo import models, fields, api
 
 
-# class show_noti(models.Model):
-#     _name = 'show_noti.show_noti'
-#     _description = 'show_noti.show_noti'
+# class shopify_odoo(models.Model):
+#     _name = 'shopify_odoo.shopify_odoo'
+#     _description = 'shopify_odoo.shopify_odoo'
 
 #     name = fields.Char()
 #     value = fields.Integer()
